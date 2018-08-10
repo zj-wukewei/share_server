@@ -1,8 +1,8 @@
 package com.github.wkw.share.controller;
 
-import com.github.wkw.share.domain.ShareFeed;
 import com.github.wkw.share.service.FeedService;
 import com.github.wkw.share.thirdparty.page.AbstractQry;
+import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.ShareResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class FeedController {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ShareResponse<ListDataEntity<ShareFeed>> lists(@RequestBody AbstractQry qry) {
-        return ShareResponse.ok(feedService.selectAll(qry));
+    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody AbstractQry qry) {
+        return ShareResponse.ok(feedService.feedEntityList(qry));
     }
 }

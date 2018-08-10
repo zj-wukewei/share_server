@@ -556,123 +556,123 @@ public class ShareFeedExample {
             return (Criteria) this;
         }
 
-        public Criteria andLikecountIsNull() {
-            addCriterion("likeCount is null");
+        public Criteria andLikeCountIsNull() {
+            addCriterion("like_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountIsNotNull() {
-            addCriterion("likeCount is not null");
+        public Criteria andLikeCountIsNotNull() {
+            addCriterion("like_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountEqualTo(Integer value) {
-            addCriterion("likeCount =", value, "likecount");
+        public Criteria andLikeCountEqualTo(Integer value) {
+            addCriterion("like_count =", value, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountNotEqualTo(Integer value) {
-            addCriterion("likeCount <>", value, "likecount");
+        public Criteria andLikeCountNotEqualTo(Integer value) {
+            addCriterion("like_count <>", value, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountGreaterThan(Integer value) {
-            addCriterion("likeCount >", value, "likecount");
+        public Criteria andLikeCountGreaterThan(Integer value) {
+            addCriterion("like_count >", value, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("likeCount >=", value, "likecount");
+        public Criteria andLikeCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("like_count >=", value, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountLessThan(Integer value) {
-            addCriterion("likeCount <", value, "likecount");
+        public Criteria andLikeCountLessThan(Integer value) {
+            addCriterion("like_count <", value, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountLessThanOrEqualTo(Integer value) {
-            addCriterion("likeCount <=", value, "likecount");
+        public Criteria andLikeCountLessThanOrEqualTo(Integer value) {
+            addCriterion("like_count <=", value, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountIn(List<Integer> values) {
-            addCriterion("likeCount in", values, "likecount");
+        public Criteria andLikeCountIn(List<Integer> values) {
+            addCriterion("like_count in", values, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountNotIn(List<Integer> values) {
-            addCriterion("likeCount not in", values, "likecount");
+        public Criteria andLikeCountNotIn(List<Integer> values) {
+            addCriterion("like_count not in", values, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountBetween(Integer value1, Integer value2) {
-            addCriterion("likeCount between", value1, value2, "likecount");
+        public Criteria andLikeCountBetween(Integer value1, Integer value2) {
+            addCriterion("like_count between", value1, value2, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andLikecountNotBetween(Integer value1, Integer value2) {
-            addCriterion("likeCount not between", value1, value2, "likecount");
+        public Criteria andLikeCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("like_count not between", value1, value2, "likeCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountIsNull() {
-            addCriterion("viewCount is null");
+        public Criteria andViewCountIsNull() {
+            addCriterion("view_count is null");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountIsNotNull() {
-            addCriterion("viewCount is not null");
+        public Criteria andViewCountIsNotNull() {
+            addCriterion("view_count is not null");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountEqualTo(Integer value) {
-            addCriterion("viewCount =", value, "viewcount");
+        public Criteria andViewCountEqualTo(Integer value) {
+            addCriterion("view_count =", value, "viewCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountNotEqualTo(Integer value) {
-            addCriterion("viewCount <>", value, "viewcount");
+        public Criteria andViewCountNotEqualTo(Integer value) {
+            addCriterion("view_count <>", value, "viewCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountGreaterThan(Integer value) {
-            addCriterion("viewCount >", value, "viewcount");
+        public Criteria andViewCountGreaterThan(Integer value) {
+            addCriterion("view_count >", value, "viewCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountGreaterThanOrEqualTo(Integer value) {
-            addCriterion("viewCount >=", value, "viewcount");
+        public Criteria andViewCountGreaterThanOrEqualTo(Integer value) {
+            addCriterion("view_count >=", value, "viewCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountLessThan(Integer value) {
-            addCriterion("viewCount <", value, "viewcount");
+        public Criteria andViewCountLessThan(Integer value) {
+            addCriterion("view_count <", value, "viewCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountLessThanOrEqualTo(Integer value) {
-            addCriterion("viewCount <=", value, "viewcount");
+        public Criteria andViewCountLessThanOrEqualTo(Integer value) {
+            addCriterion("view_count <=", value, "viewCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountIn(List<Integer> values) {
-            addCriterion("viewCount in", values, "viewcount");
+        public Criteria andViewCountIn(List<Integer> values) {
+            addCriterion("view_count in", values, "viewCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountNotIn(List<Integer> values) {
-            addCriterion("viewCount not in", values, "viewcount");
+        public Criteria andViewCountNotIn(List<Integer> values) {
+            addCriterion("view_count not in", values, "viewCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountBetween(Integer value1, Integer value2) {
-            addCriterion("viewCount between", value1, value2, "viewcount");
+        public Criteria andViewCountBetween(Integer value1, Integer value2) {
+            addCriterion("view_count between", value1, value2, "viewCount");
             return (Criteria) this;
         }
 
-        public Criteria andViewcountNotBetween(Integer value1, Integer value2) {
-            addCriterion("viewCount not between", value1, value2, "viewcount");
+        public Criteria andViewCountNotBetween(Integer value1, Integer value2) {
+            addCriterion("view_count not between", value1, value2, "viewCount");
             return (Criteria) this;
         }
 
