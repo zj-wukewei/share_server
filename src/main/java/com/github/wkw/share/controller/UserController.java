@@ -5,9 +5,11 @@ import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.service.UserService;
+import com.github.wkw.share.utils.FastjsonUtils;
 import com.github.wkw.share.utils.ObjectUtils;
 import com.github.wkw.share.vo.ShareResponse;
 import com.github.wkw.share.vo.UserEntity;
+import com.github.wkw.share.vo.UserInfoEntity;
 import com.github.wkw.share.vo.request.LoginRequest;
 import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +43,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public ShareResponse<ShareUserInfo> information(@LoginUserId Integer id) {
+    public ShareResponse<UserInfoEntity> information(@LoginUserId Integer id) {
         ShareUserInfo userInfo = userInfoService.selectByUid(id);
-        return ShareResponse.ok(userInfo);
+        UserInfoEntity entity = FastjsonUtils.transformObject(userInfo, UserInfoEntity.class);
+        return ShareResponse.ok(entity);
     }
 }
