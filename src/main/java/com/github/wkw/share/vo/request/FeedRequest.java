@@ -1,6 +1,7 @@
 package com.github.wkw.share.vo.request;
 
 import com.github.wkw.share.thirdparty.page.AbstractQry;
+import com.github.wkw.share.utils.validator.StringArray;
 
 /**
  * Created by GoGo on  2018/8/15
@@ -9,6 +10,7 @@ import com.github.wkw.share.thirdparty.page.AbstractQry;
  */
 public class FeedRequest extends AbstractQry {
     //1：社区 2： 首页  3：热门
+    @StringArray(value = {"1", "2", "3"}, message = "type只能为 \"1\"：社区 \"2\"： 首页  \"3\"：热门")
     private String type;
 
     public String getType() {
