@@ -1,7 +1,7 @@
 package com.github.wkw.share.thirdparty.page;
 
 public class AbstractQry {
-    public static final int DEFAULT_PAGENUM = 0;
+    public static final int DEFAULT_PAGENUM = 1;
     public static final int DEFAULT_PAGESIZE = 20;
     public static final boolean DEFAULT_REQUIRETOTALCOUNT = false;
 

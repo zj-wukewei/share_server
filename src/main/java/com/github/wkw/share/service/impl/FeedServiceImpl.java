@@ -12,6 +12,7 @@ import com.github.wkw.share.utils.FastjsonUtils;
 import com.github.wkw.share.utils.ObjectUtils;
 import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
+import com.github.wkw.share.vo.request.FeedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class FeedServiceImpl implements FeedService {
     UserInfoService userInfoService;
 
     @Override
-    public ListDataEntity<ShareFeed> selectAll(AbstractQry qry) {
+    public ListDataEntity<ShareFeed> selectAll(FeedRequest qry) {
         return PageCallBackUtil.selectRtnPage(qry, () -> {
             ShareFeedExample example = new ShareFeedExample();
             example.setOrderByClause("add_time desc");
@@ -41,7 +42,7 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public ListDataEntity<FeedEntity> feedEntityList(AbstractQry qry) {
+    public ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) {
         ListDataEntity<ShareFeed> shareFeeds = selectAll(qry);
         ListDataEntity<FeedEntity> feeds = FastjsonUtils.transformListData(shareFeeds, FeedEntity.class);
         for (FeedEntity feedEntity : feeds.getList()) {

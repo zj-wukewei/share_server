@@ -4,6 +4,7 @@ import com.github.wkw.share.domain.ShareFeed;
 import com.github.wkw.share.thirdparty.page.AbstractQry;
 import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
+import com.github.wkw.share.vo.request.FeedRequest;
 
 /**
  * Created by GoGo on  2018/8/6
@@ -11,6 +12,6 @@ import com.github.wkw.share.vo.ListDataEntity;
  * GitHub https://github.com/zj-wukewei
  */
 public interface FeedService {
-    ListDataEntity<ShareFeed> selectAll(AbstractQry qry);
-    ListDataEntity<FeedEntity> feedEntityList(AbstractQry qry);
+    ListDataEntity<ShareFeed> selectAll(FeedRequest qry);
+    ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry);
 }

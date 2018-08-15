@@ -5,6 +5,7 @@ import com.github.wkw.share.thirdparty.page.AbstractQry;
 import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.ShareResponse;
+import com.github.wkw.share.vo.request.FeedRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class FeedController {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody AbstractQry qry) {
+    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody FeedRequest qry) {
         return ShareResponse.ok(feedService.feedEntityList(qry));
     }
 }

@@ -21,7 +21,7 @@ public class ShareServerApplication {
     public PageHelper pageHelper() {
         PageHelper pageHelper = new PageHelper();
         Properties properties = new Properties();
-        properties.setProperty("offsetAsPageNum", "true");
+        properties.setProperty("offsetAsPageNum", "false");
         properties.setProperty("rowBoundsWithCount", "true");
         properties.setProperty("reasonable", "true");
         pageHelper.setProperties(properties);
