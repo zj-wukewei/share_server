@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 @Service
 public class FeedServiceImpl implements FeedService {
 
+    private static final int HOT_LIKE_COUNT = 100;
     @Resource
     ShareFeedMapper feedMapper;
 
@@ -42,8 +43,37 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
+    public ListDataEntity<ShareFeed> selectHot(AbstractQry qry) {
+        return PageCallBackUtil.selectRtnPage(qry, () -> {
+            ShareFeedExample example = new ShareFeedExample();
+            example.createCriteria()
+                    .andLikeCountGreaterThanOrEqualTo(HOT_LIKE_COUNT);
+            example.setOrderByClause("add_time desc");
+            return feedMapper.selectByExample(example);
+        });
+    }
+
+    @Override
+    public ListDataEntity<ShareFeed> selectCommunity(AbstractQry qry) {
+        return PageCallBackUtil.selectRtnPage(qry, () -> {
+            ShareFeedExample example = new ShareFeedExample();
+            example.createCriteria()
+                    .andTagIdEqualTo(1);
+            example.setOrderByClause("add_time desc");
+            return feedMapper.selectByExample(example);
+        });
+    }
+
+    @Override
     public ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) {
-        ListDataEntity<ShareFeed> shareFeeds = selectAll(qry);
+        ListDataEntity<ShareFeed> shareFeeds = null;
+        if (FeedRequest.COMMUNITY.equals(qry.getType())) {
+            shareFeeds = selectCommunity(qry);
+        } else if (FeedRequest.HOME.equals(qry.getType())) {
+            shareFeeds = selectAll(qry);
+        } else if (FeedRequest.HOT.equals(qry.getType())) {
+            shareFeeds = selectHot(qry);
+        }
         ListDataEntity<FeedEntity> feeds = FastjsonUtils.transformListData(shareFeeds, FeedEntity.class);
         for (FeedEntity feedEntity : feeds.getList()) {
             final ShareUserInfo info = userInfoService.selectByUid(feedEntity.getUserId());
@@ -54,4 +84,5 @@ public class FeedServiceImpl implements FeedService {
         }
         return feeds;
     }
+
 }

@@ -13,5 +13,11 @@ import com.github.wkw.share.vo.request.FeedRequest;
  */
 public interface FeedService {
     ListDataEntity<ShareFeed> selectAll(FeedRequest qry);
+
+    ListDataEntity<ShareFeed> selectHot(AbstractQry qry);
+
+    ListDataEntity<ShareFeed> selectCommunity(AbstractQry qry);
+
     ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry);
+
 }

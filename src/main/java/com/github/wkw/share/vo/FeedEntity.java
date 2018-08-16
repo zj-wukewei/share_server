@@ -1,5 +1,7 @@
 package com.github.wkw.share.vo;
 
+import java.util.Date;
+
 /**
  * Created by GoGo on  2018/8/10
  * Email zjwkw1992@163.com
@@ -19,13 +21,21 @@ public class FeedEntity {
 
     private Integer likeCount;
 
-    private Integer viewCount;
-
+    private Integer commentCount;
+    private Date addTime;
     private Integer tagId;
 
     private Integer categoryId;
     private String userName;
     private String userAvatar;
+
+    public Date getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(Date addTime) {
+        this.addTime = addTime;
+    }
 
     public String getUserName() {
         return userName;
@@ -91,12 +101,12 @@ public class FeedEntity {
         this.likeCount = likeCount;
     }
 
-    public Integer getViewCount() {
-        return viewCount;
+    public Integer getCommentCount() {
+        return commentCount;
     }
 
-    public void setViewCount(Integer viewCount) {
-        this.viewCount = viewCount;
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
     }
 
     public Integer getTagId() {

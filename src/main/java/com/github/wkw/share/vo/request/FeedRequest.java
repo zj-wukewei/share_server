@@ -9,6 +9,10 @@ import com.github.wkw.share.utils.validator.StringArray;
  * GitHub https://github.com/zj-wukewei
  */
 public class FeedRequest extends AbstractQry {
+    public static final String HOME = "2";
+    public static final String HOT = "3";
+    public static final String COMMUNITY = "1";
+
     //1：社区 2： 首页  3：热门
     @StringArray(value = {"1", "2", "3"}, message = "type只能为 \"1\"：社区 \"2\"： 首页  \"3\"：热门")
     private String type;

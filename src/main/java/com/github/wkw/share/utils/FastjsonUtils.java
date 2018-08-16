@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.wkw.share.vo.ListDataEntity;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,19 +14,24 @@ import java.util.List;
  * GitHub https://github.com/zj-wukewei
  */
 public class FastjsonUtils {
-    public static <T> T  transformObject(Object o, Class<T> to) {
+    public static <T> T transformObject(Object o, Class<T> to) {
         String josnString = JSONObject.toJSONString(o);
         return JSONObject.parseObject(josnString, to);
     }
 
-    public static <T> ListDataEntity<T> transformListData(ListDataEntity entity,Class<T> to) {
+    public static <T> ListDataEntity<T> transformListData(ListDataEntity entity, Class<T> to) {
+        if (entity == null) {
+            return new ListDataEntity<>();
+        }
         ListDataEntity<T> dataEntity = new ListDataEntity<>();
         dataEntity.setHasMore(entity.isHasMore());
         dataEntity.setTotal(entity.getTotal());
         List<T> lists = new ArrayList<>(entity.getList().size());
-        for (Object o : entity.getList()) {
-            T d = transformObject(o, to);
-            lists.add(d);
+        if (entity.getList() != null) {
+            for (Object o : entity.getList()) {
+                T d = transformObject(o, to);
+                lists.add(d);
+            }
         }
         dataEntity.setList(lists);
         return dataEntity;
