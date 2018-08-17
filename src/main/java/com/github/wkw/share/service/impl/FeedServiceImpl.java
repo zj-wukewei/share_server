@@ -4,6 +4,7 @@ import com.github.wkw.share.dao.ShareFeedMapper;
 import com.github.wkw.share.domain.ShareFeed;
 import com.github.wkw.share.domain.ShareFeedExample;
 import com.github.wkw.share.domain.ShareUserInfo;
+import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.service.FeedService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.thirdparty.page.AbstractQry;
@@ -27,6 +28,10 @@ import javax.annotation.Resource;
 public class FeedServiceImpl implements FeedService {
 
     private static final int HOT_LIKE_COUNT = 100;
+    //社区
+    private static final int TAG_COMMUNITY = 1;
+    //内容
+    private static final int TAG_CONTENT = 2;
     @Resource
     ShareFeedMapper feedMapper;
 
@@ -58,14 +63,14 @@ public class FeedServiceImpl implements FeedService {
         return PageCallBackUtil.selectRtnPage(qry, () -> {
             ShareFeedExample example = new ShareFeedExample();
             example.createCriteria()
-                    .andTagIdEqualTo(1);
+                    .andTagIdEqualTo(TAG_COMMUNITY);
             example.setOrderByClause("add_time desc");
             return feedMapper.selectByExample(example);
         });
     }
 
     @Override
-    public ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) {
+    public ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) throws CommonException {
         ListDataEntity<ShareFeed> shareFeeds = null;
         if (FeedRequest.COMMUNITY.equals(qry.getType())) {
             shareFeeds = selectCommunity(qry);
@@ -73,6 +78,8 @@ public class FeedServiceImpl implements FeedService {
             shareFeeds = selectAll(qry);
         } else if (FeedRequest.HOT.equals(qry.getType())) {
             shareFeeds = selectHot(qry);
+        } else {
+            throw new CommonException("tag 类型出错");
         }
         ListDataEntity<FeedEntity> feeds = FastjsonUtils.transformListData(shareFeeds, FeedEntity.class);
         for (FeedEntity feedEntity : feeds.getList()) {

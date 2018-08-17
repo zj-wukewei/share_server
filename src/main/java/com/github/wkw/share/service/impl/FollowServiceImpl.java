@@ -10,6 +10,7 @@ import com.github.wkw.share.utils.FastjsonUtils;
 import com.github.wkw.share.vo.UserInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.List;
 @Service
 public class FollowServiceImpl implements FollowService {
 
-    private static final int SINGLEWAY_FOLLOW = 1;
+    private static final int SINGLE_WAY_FOLLOW = 1;
     private static final int TWO_WAY_FOLLOW = 2;
     @Resource
     ShareFollowMapper shareFollowMapper;
@@ -71,6 +72,7 @@ public class FollowServiceImpl implements FollowService {
         return Collections.emptyList();
     }
 
+    @Transactional
     @Override
     public boolean follow(Integer userId, Integer followUserId) {
         ShareFollowExample example = new ShareFollowExample()
@@ -94,7 +96,7 @@ public class FollowServiceImpl implements FollowService {
             follow.setUpdateTime(new Date());
             follow.setUserLeft(userId);
             follow.setUserRight(followUserId);
-            follow.setRelation(myFans == null ? SINGLEWAY_FOLLOW : TWO_WAY_FOLLOW);
+            follow.setRelation(myFans == null ? SINGLE_WAY_FOLLOW : TWO_WAY_FOLLOW);
             shareFollowMapper.insert(follow);
             if (myFans != null) {
                 //有关注我的
@@ -110,7 +112,7 @@ public class FollowServiceImpl implements FollowService {
             if (myFans != null) {
                 //有关注我的
                 shareFollowMapper.deleteByPrimaryKey(myFollow.getId());
-                myFans.setRelation(SINGLEWAY_FOLLOW);
+                myFans.setRelation(SINGLE_WAY_FOLLOW);
                 myFans.setUpdateTime(new Date());
                 shareFollowMapper.updateByPrimaryKeySelective(myFans);
             }

@@ -1,9 +1,9 @@
 package com.github.wkw.share.controller;
 
 import com.github.wkw.share.annotion.LoginUserId;
+import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.service.FeedService;
 import com.github.wkw.share.service.LikeService;
-import com.github.wkw.share.thirdparty.page.AbstractQry;
 import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.ShareResponse;
@@ -29,7 +29,7 @@ public class FeedController {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody @Validated FeedRequest qry) {
+    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody @Validated FeedRequest qry) throws CommonException {
         return ShareResponse.ok(feedService.feedEntityList(qry));
     }
 
