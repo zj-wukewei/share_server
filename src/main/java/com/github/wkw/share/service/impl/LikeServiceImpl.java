@@ -7,6 +7,7 @@ import com.github.wkw.share.service.LikeService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -29,8 +30,8 @@ public class LikeServiceImpl implements LikeService {
         ShareLike like = shareLikeMapper.selectOneByExample(example);
         if (like == null) {
             like = new ShareLike();
-            like.setAddTime(new Date());
-            like.setUpdateTime(new Date());
+            like.setAddTime(LocalDateTime.now());
+            like.setUpdateTime(LocalDateTime.now());
             like.setUserId(id);
             like.setFeedId(feedId);
             shareLikeMapper.insert(like);

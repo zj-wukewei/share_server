@@ -1,4 +1,4 @@
-package com.github.wkw.share.thirdparty.apo;
+package com.github.wkw.share.thirdparty.aop;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.wkw.share.Constants;
@@ -10,13 +10,10 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import sun.util.locale.LocaleUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;

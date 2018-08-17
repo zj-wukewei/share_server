@@ -57,21 +57,31 @@
         <!--表名-->
         <table tableName="share_user">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="add_time"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="update_time"/>
         </table>
         <table tableName="share_user_info">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="add_time"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="update_time"/>
         </table>
 
         <table tableName="share_feed">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="add_time"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="update_time"/>
         </table>
 
         <table tableName="share_like">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="add_time"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="update_time"/>
         </table>
 
         <table tableName="share_follow">
             <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="add_time"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="update_time"/>
         </table>
     </context>
 </generatorConfiguration>

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Service
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
             String token = TokenService.encodeToken(expiredTime, request.getMobile(), request.getPassword(), appId);
             ShareUser shareUser = new ShareUser();
             shareUser.setId((user).getId());
-            shareUser.setUpdateTime(new Date());
+            shareUser.setUpdateTime(LocalDateTime.now());
             shareUser.setToken(token);
             shareUser.setAppModel(appModel);
             shareUser.setAppVersion(appVersion);

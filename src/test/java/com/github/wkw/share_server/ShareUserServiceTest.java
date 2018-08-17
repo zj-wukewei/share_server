@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @RunWith(SpringRunner.class)
@@ -26,8 +27,8 @@ public class ShareUserServiceTest {
         user.setPhone("18258065554");
         user.setPassword("123456");
         user.setToken("45ggghghg");
-        user.setAddTime(new Date());
-        user.setUpdateTime(new Date());
+        user.setAddTime(LocalDateTime.now());
+        user.setUpdateTime(LocalDateTime.now());
     }
 
     @After

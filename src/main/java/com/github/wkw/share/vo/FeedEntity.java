@@ -1,5 +1,6 @@
 package com.github.wkw.share.vo;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -22,18 +23,18 @@ public class FeedEntity {
     private Integer likeCount;
 
     private Integer commentCount;
-    private Date addTime;
+    private String addTime;
     private Integer tagId;
 
     private Integer categoryId;
     private String userName;
     private String userAvatar;
 
-    public Date getAddTime() {
+    public String getAddTime() {
         return addTime;
     }
 
-    public void setAddTime(Date addTime) {
+    public void setAddTime(String addTime) {
         this.addTime = addTime;
     }
 

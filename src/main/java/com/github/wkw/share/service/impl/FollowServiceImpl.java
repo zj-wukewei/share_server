@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -92,8 +93,8 @@ public class FollowServiceImpl implements FollowService {
         if (myFollow == null) {
             //关注
             ShareFollow follow = new ShareFollow();
-            follow.setAddTime(new Date());
-            follow.setUpdateTime(new Date());
+            follow.setAddTime(LocalDateTime.now());
+            follow.setUpdateTime(LocalDateTime.now());
             follow.setUserLeft(userId);
             follow.setUserRight(followUserId);
             follow.setRelation(myFans == null ? SINGLE_WAY_FOLLOW : TWO_WAY_FOLLOW);
@@ -101,7 +102,7 @@ public class FollowServiceImpl implements FollowService {
             if (myFans != null) {
                 //有关注我的
                 myFans.setRelation(TWO_WAY_FOLLOW);
-                myFans.setUpdateTime(new Date());
+                myFans.setUpdateTime(LocalDateTime.now());
                 shareFollowMapper.updateByPrimaryKeySelective(myFans);
             }
             return true;
@@ -113,7 +114,7 @@ public class FollowServiceImpl implements FollowService {
                 //有关注我的
                 shareFollowMapper.deleteByPrimaryKey(myFollow.getId());
                 myFans.setRelation(SINGLE_WAY_FOLLOW);
-                myFans.setUpdateTime(new Date());
+                myFans.setUpdateTime(LocalDateTime.now());
                 shareFollowMapper.updateByPrimaryKeySelective(myFans);
             }
             return false;
