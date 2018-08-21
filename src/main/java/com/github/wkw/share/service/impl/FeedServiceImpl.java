@@ -5,6 +5,7 @@ import com.github.wkw.share.domain.ShareFeed;
 import com.github.wkw.share.domain.ShareFeedExample;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.CommonException;
+import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.service.FeedService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.thirdparty.page.AbstractQry;
@@ -70,7 +71,7 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) throws CommonException {
+    public ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) throws CommonException, UserInfoUnFoundException {
         ListDataEntity<ShareFeed> shareFeeds = null;
         if (FeedRequest.COMMUNITY.equals(qry.getType())) {
             shareFeeds = selectCommunity(qry);

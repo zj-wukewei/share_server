@@ -1,13 +1,13 @@
 package com.github.wkw.share.service.impl;
 
 import com.github.wkw.share.dao.ShareUserMapper;
+import com.github.wkw.share.dao.UserMapper;
 import com.github.wkw.share.domain.ShareUser;
 import com.github.wkw.share.domain.ShareUserDetail;
 import com.github.wkw.share.domain.ShareUserExample;
 import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.service.UserService;
 import com.github.wkw.share.thirdparty.security.TokenService;
-import com.github.wkw.share.dao.UserMapper;
 import com.github.wkw.share.utils.StringUtils;
 import com.github.wkw.share.vo.UserEntity;
 import com.github.wkw.share.vo.request.LoginRequest;
@@ -16,7 +16,6 @@ import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {

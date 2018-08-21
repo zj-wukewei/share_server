@@ -3,10 +3,12 @@ package com.github.wkw.share.controller;
 import com.github.wkw.share.annotion.LoginUserId;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.CommonException;
+import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.service.FollowService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.service.UserService;
 import com.github.wkw.share.utils.FastjsonUtils;
+import com.github.wkw.share.vo.Follow;
 import com.github.wkw.share.vo.ShareResponse;
 import com.github.wkw.share.vo.UserEntity;
 import com.github.wkw.share.vo.UserInfoEntity;
@@ -44,7 +46,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/info", method = RequestMethod.GET)
-    public ShareResponse<UserInfoEntity> information(@LoginUserId Integer id) {
+    public ShareResponse<UserInfoEntity> information(@LoginUserId Integer id) throws UserInfoUnFoundException {
         ShareUserInfo userInfo = userInfoService.selectByUid(id);
         UserInfoEntity entity = FastjsonUtils.transformObject(userInfo, UserInfoEntity.class);
         return ShareResponse.ok(entity);
@@ -52,7 +54,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/follows", method = RequestMethod.GET)
-    public ShareResponse<List<UserInfoEntity>> follow(@LoginUserId Integer id) {
+    public ShareResponse<List<Follow>> follow(@LoginUserId Integer id) throws UserInfoUnFoundException {
         return ShareResponse.ok(followService.myFollow(id));
     }
 
@@ -62,7 +64,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/fans", method = RequestMethod.GET)
-    public ShareResponse<List<UserInfoEntity>> fans(@LoginUserId Integer id) {
+    public ShareResponse<List<Follow>> fans(@LoginUserId Integer id) throws UserInfoUnFoundException {
         return ShareResponse.ok(followService.myFans(id));
     }
 }

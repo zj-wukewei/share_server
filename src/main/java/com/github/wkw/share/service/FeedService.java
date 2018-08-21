@@ -2,6 +2,7 @@ package com.github.wkw.share.service;
 
 import com.github.wkw.share.domain.ShareFeed;
 import com.github.wkw.share.exception.CommonException;
+import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.thirdparty.page.AbstractQry;
 import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
@@ -19,6 +20,6 @@ public interface FeedService {
 
     ListDataEntity<ShareFeed> selectCommunity(AbstractQry qry);
 
-    ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) throws CommonException;
+    ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) throws CommonException, UserInfoUnFoundException;
 
 }

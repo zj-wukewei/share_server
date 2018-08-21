@@ -62,6 +62,12 @@ public class ExceptionController {
         return ShareResponse.fail(STATUS_CODE.ERROR_DATA_DECODE, stringBuilder.toString());
     }
 
+    @ExceptionHandler(UserInfoUnFoundException.class)
+    @ResponseBody
+    public ShareResponse handleUserInfoUnFoundException(HttpServletRequest request, UserInfoUnFoundException exception) {
+        logger.error("Request: " + request.getRequestURL() + " raised " + exception, exception);
+        return ShareResponse.fail(STATUS_CODE.ERROR_PERFECT_PROFILE, exception.getMessage());
+    }
 
     @ExceptionHandler(CommonException.class)
     @ResponseBody

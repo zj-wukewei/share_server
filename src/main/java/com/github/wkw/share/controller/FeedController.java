@@ -2,6 +2,7 @@ package com.github.wkw.share.controller;
 
 import com.github.wkw.share.annotion.LoginUserId;
 import com.github.wkw.share.exception.CommonException;
+import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.service.FeedService;
 import com.github.wkw.share.service.LikeService;
 import com.github.wkw.share.vo.FeedEntity;
@@ -29,7 +30,7 @@ public class FeedController {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody @Validated FeedRequest qry) throws CommonException {
+    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody @Validated FeedRequest qry) throws CommonException, UserInfoUnFoundException {
         return ShareResponse.ok(feedService.feedEntityList(qry));
     }
 

@@ -1,8 +1,5 @@
 package com.github.wkw.share.vo;
 
-import java.time.LocalDateTime;
-import java.util.Date;
-
 /**
  * Created by GoGo on  2018/8/10
  * Email zjwkw1992@163.com
