@@ -15,7 +15,7 @@ public class Follow {
     private String avatar;
 
     //是否关注
-    private boolean folloed;
+    private boolean followed;
 
     public Integer getId() {
         return id;
@@ -49,11 +49,11 @@ public class Follow {
         this.avatar = avatar;
     }
 
-    public boolean isFolloed() {
-        return folloed;
+    public boolean isFollowed() {
+        return followed;
     }
 
-    public void setFolloed(boolean folloed) {
-        this.folloed = folloed;
+    public void setFollowed(boolean followed) {
+        this.followed = followed;
     }
 }

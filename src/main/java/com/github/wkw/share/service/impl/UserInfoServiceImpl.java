@@ -29,6 +29,6 @@ public class UserInfoServiceImpl implements UserInfoService {
         if (info == null) {
             throw new UserInfoUnFoundException();
         }
-        return userInfoMapper.selectOneByExample(example);
+        return info;
     }
 }

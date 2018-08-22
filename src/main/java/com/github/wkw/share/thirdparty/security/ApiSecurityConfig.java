@@ -36,6 +36,7 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/login/**", "/user/register/**").permitAll()
                 .antMatchers("/error/**").permitAll()
+                .antMatchers("/druid/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(rememberMeAuthenticationFilter(), BasicAuthenticationFilter.class)

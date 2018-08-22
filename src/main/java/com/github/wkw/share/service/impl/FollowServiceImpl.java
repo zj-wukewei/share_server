@@ -48,7 +48,7 @@ public class FollowServiceImpl implements FollowService {
             for (ShareFollow follow : follows) {
                 ShareUserInfo userInfo = userInfoService.selectByUid(follow.getUserRight());
                 Follow entity = FastjsonUtils.transformObject(userInfo, Follow.class);
-                entity.setFolloed(true);
+                entity.setFollowed(true);
                 userInfoList.add(entity);
             }
             return userInfoList;
@@ -74,7 +74,7 @@ public class FollowServiceImpl implements FollowService {
                         .andUserRightEqualTo(entity.getUserId())
                         .example();
                 ShareFollow shareFollow = shareFollowMapper.selectOneByExample(followExample);
-                entity.setFolloed(shareFollow != null);
+                entity.setFollowed(shareFollow != null);
                 userInfoList.add(entity);
             }
             return userInfoList;
