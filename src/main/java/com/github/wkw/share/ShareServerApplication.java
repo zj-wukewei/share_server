@@ -27,4 +27,5 @@ public class ShareServerApplication {
         pageHelper.setProperties(properties);
         return pageHelper;
     }
+
 }
