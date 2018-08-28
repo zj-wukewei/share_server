@@ -7,6 +7,7 @@ import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.service.FeedService;
+import com.github.wkw.share.service.LikeService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.thirdparty.page.AbstractQry;
 import com.github.wkw.share.thirdparty.page.PageCallBackUtil;
@@ -38,6 +39,9 @@ public class FeedServiceImpl implements FeedService {
 
     @Autowired
     UserInfoService userInfoService;
+
+    @Autowired
+    LikeService likeService;
 
     @Override
     public ListDataEntity<ShareFeed> selectAll(FeedRequest qry) {
@@ -71,7 +75,7 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) throws CommonException, UserInfoUnFoundException {
+    public ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry, Integer userId) throws CommonException, UserInfoUnFoundException {
         ListDataEntity<ShareFeed> shareFeeds = null;
         if (FeedRequest.COMMUNITY.equals(qry.getType())) {
             shareFeeds = selectCommunity(qry);
@@ -85,12 +89,24 @@ public class FeedServiceImpl implements FeedService {
         ListDataEntity<FeedEntity> feeds = FastjsonUtils.transformListData(shareFeeds, FeedEntity.class);
         for (FeedEntity feedEntity : feeds.getList()) {
             final ShareUserInfo info = userInfoService.selectByUid(feedEntity.getUserId());
+            boolean liked = likeService.liked(userId, feedEntity.getId());
             if (ObjectUtils.isNotNull(info)) {
                 feedEntity.setUserAvatar(info.getAvatar());
                 feedEntity.setUserName(info.getNickname());
             }
+            feedEntity.setLiked(liked);
         }
         return feeds;
+    }
+
+    @Override
+    public ShareFeed selectById(Integer feedId) {
+        return feedMapper.selectByPrimaryKey(feedId);
+    }
+
+    @Override
+    public int update(ShareFeed feed) {
+        return feedMapper.updateByPrimaryKeySelective(feed);
     }
 
 }

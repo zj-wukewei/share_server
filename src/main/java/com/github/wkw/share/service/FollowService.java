@@ -2,7 +2,6 @@ package com.github.wkw.share.service;
 
 import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.vo.Follow;
-import com.github.wkw.share.vo.UserInfoEntity;
 
 import java.util.List;
 
@@ -15,5 +14,7 @@ public interface FollowService {
     List<Follow> myFollow(Integer userId) throws UserInfoUnFoundException;
 
     List<Follow> myFans(Integer userId) throws UserInfoUnFoundException;
+
     boolean follow(Integer userId, Integer followUserId);
+
 }

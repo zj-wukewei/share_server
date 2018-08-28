@@ -26,6 +26,15 @@ public class FeedEntity {
     private Integer categoryId;
     private String userName;
     private String userAvatar;
+    private boolean liked;
+
+    public boolean isLiked() {
+        return liked;
+    }
+
+    public void setLiked(boolean liked) {
+        this.liked = liked;
+    }
 
     public String getAddTime() {
         return addTime;

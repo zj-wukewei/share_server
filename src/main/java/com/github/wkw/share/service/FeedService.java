@@ -20,6 +20,10 @@ public interface FeedService {
 
     ListDataEntity<ShareFeed> selectCommunity(AbstractQry qry);
 
-    ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry) throws CommonException, UserInfoUnFoundException;
+    ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry, Integer userId) throws CommonException, UserInfoUnFoundException;
+
+    ShareFeed selectById(Integer feedId);
+
+    int update(ShareFeed feed);
 
 }

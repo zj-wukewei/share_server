@@ -10,7 +10,6 @@ import com.github.wkw.share.service.PushService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.utils.FastjsonUtils;
 import com.github.wkw.share.vo.Follow;
-import com.github.wkw.share.vo.UserInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -43,6 +42,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Autowired
     PushService pushService;
+
     @Override
     public List<Follow> myFollow(Integer userId) throws UserInfoUnFoundException {
         ShareFollowExample example = new ShareFollowExample()
@@ -139,4 +139,5 @@ public class FollowServiceImpl implements FollowService {
         }
 
     }
+
 }

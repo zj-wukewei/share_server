@@ -6,6 +6,7 @@ import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.service.FeedService;
 import com.github.wkw.share.service.LikeService;
 import com.github.wkw.share.vo.FeedEntity;
+import com.github.wkw.share.vo.LikeEntity;
 import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.ShareResponse;
 import com.github.wkw.share.vo.request.FeedRequest;
@@ -30,13 +31,13 @@ public class FeedController {
 
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody @Validated FeedRequest qry) throws CommonException, UserInfoUnFoundException {
-        return ShareResponse.ok(feedService.feedEntityList(qry));
+    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody @Validated FeedRequest qry, @LoginUserId Integer id) throws CommonException, UserInfoUnFoundException {
+        return ShareResponse.ok(feedService.feedEntityList(qry, id));
     }
 
 
     @RequestMapping(value = "/like/{feedId}", method = RequestMethod.GET)
-    public ShareResponse<Boolean> like(@LoginUserId Integer id, @PathVariable("feedId") Integer feedId) {
+    public ShareResponse<LikeEntity> like(@LoginUserId Integer id, @PathVariable("feedId") Integer feedId) throws UserInfoUnFoundException {
         return ShareResponse.ok(likeService.like(id, feedId));
     }
 }
