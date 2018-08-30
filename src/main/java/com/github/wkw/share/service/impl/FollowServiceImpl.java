@@ -91,7 +91,7 @@ public class FollowServiceImpl implements FollowService {
 
     @Transactional
     @Override
-    public boolean follow(Integer userId, Integer followUserId) {
+    public boolean follow(Integer userId, Integer followUserId) throws UserInfoUnFoundException {
         ShareFollowExample example = new ShareFollowExample()
                 .createCriteria()
                 .andUserLeftEqualTo(userId)
@@ -106,7 +106,6 @@ public class FollowServiceImpl implements FollowService {
                 .example();
         ShareFollow myFans = shareFollowMapper.selectOneByExample(fansExample);
 
-        pushService.pushFollow(userId);
 
         if (myFollow == null) {
             //关注
@@ -123,8 +122,8 @@ public class FollowServiceImpl implements FollowService {
                 myFans.setUpdateTime(LocalDateTime.now());
                 shareFollowMapper.updateByPrimaryKeySelective(myFans);
             }
+            pushService.pushFollow(userId);
             return true;
-
         } else {
             //取消关注
             shareFollowMapper.deleteByPrimaryKey(myFollow.getId());

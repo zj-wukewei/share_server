@@ -15,6 +15,6 @@ public interface FollowService {
 
     List<Follow> myFans(Integer userId) throws UserInfoUnFoundException;
 
-    boolean follow(Integer userId, Integer followUserId);
+    boolean follow(Integer userId, Integer followUserId) throws UserInfoUnFoundException;
 
 }

@@ -9,7 +9,7 @@ import com.github.wkw.share.exception.UserInfoUnFoundException;
  * GitHub https://github.com/zj-wukewei
  */
 public interface PushService {
-    void pushFollow(Integer userId);
+    void pushFollow(Integer userId) throws UserInfoUnFoundException;
 
     void pushLike(Integer userId, ShareFeed feed) throws UserInfoUnFoundException;
 }

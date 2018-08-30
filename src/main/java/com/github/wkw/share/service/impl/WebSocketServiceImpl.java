@@ -7,6 +7,7 @@ import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.service.PushService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.vo.PushEntity;
+import com.github.wkw.share.vo.push.FollowEvent;
 import com.github.wkw.share.vo.push.LikeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,9 +41,13 @@ public class WebSocketServiceImpl implements PushService {
     SimpUserRegistry simpUserRegistry;
 
     @Override
-    public void pushFollow(Integer userId) {
+    public void pushFollow(Integer userId) throws UserInfoUnFoundException {
         logger.info("pushFollow" + userId);
-        simpMessagingTemplate.convertAndSendToUser(String.valueOf(userId), "/msg", userId + "订阅成功");
+        FollowEvent event = new FollowEvent();
+        event.setUserId(userId);
+        ShareUserInfo info = userInfoService.selectByUid(userId);
+        event.setNickName(info.getNickname());
+        simpMessagingTemplate.convertAndSendToUser(String.valueOf(userId), "/msg", new PushEntity(FOLLOW, event));
     }
 
     @Override

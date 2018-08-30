@@ -59,7 +59,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/follow/{followUserId}", method = RequestMethod.GET)
-    public ShareResponse<Boolean> follow(@LoginUserId Integer id, @PathVariable("followUserId") Integer followUserId) {
+    public ShareResponse<Boolean> follow(@LoginUserId Integer id, @PathVariable("followUserId") Integer followUserId) throws UserInfoUnFoundException {
         return ShareResponse.ok(followService.follow(id, followUserId));
     }
 
