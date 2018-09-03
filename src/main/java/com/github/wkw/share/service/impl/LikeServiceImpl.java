@@ -11,6 +11,7 @@ import com.github.wkw.share.service.PushService;
 import com.github.wkw.share.vo.LikeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -32,6 +33,7 @@ public class LikeServiceImpl implements LikeService {
     PushService pushService;
 
     @Override
+    @Transactional
     public LikeEntity like(Integer id, Integer feedId) throws UserInfoUnFoundException {
         ShareLikeExample example = new ShareLikeExample()
                 .createCriteria()

@@ -2,10 +2,9 @@ package com.github.wkw.share.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.github.wkw.share.vo.ListDataEntity;
+import org.springframework.lang.NonNull;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -30,6 +29,25 @@ public class FastjsonUtils {
         if (entity.getList() != null) {
             for (Object o : entity.getList()) {
                 T d = transformObject(o, to);
+                lists.add(d);
+            }
+        }
+        dataEntity.setList(lists);
+        return dataEntity;
+    }
+
+    public static <T> ListDataEntity<T> transformListData(ListDataEntity entity, Class<T> to, @NonNull TransInvoke invoke) throws Exception {
+        if (entity == null) {
+            return new ListDataEntity<>();
+        }
+        ListDataEntity<T> dataEntity = new ListDataEntity<>();
+        dataEntity.setHasMore(entity.isHasMore());
+        dataEntity.setTotal(entity.getTotal());
+        List<T> lists = new ArrayList<>(entity.getList().size());
+        if (entity.getList() != null) {
+            for (Object o : entity.getList()) {
+                T d = transformObject(o, to);
+                invoke.invoke(o, d);
                 lists.add(d);
             }
         }

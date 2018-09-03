@@ -83,5 +83,11 @@
             <columnOverride javaType="java.time.LocalDateTime" column="add_time"/>
             <columnOverride javaType="java.time.LocalDateTime" column="update_time"/>
         </table>
+
+        <table tableName="share_comment">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="add_time"/>
+            <columnOverride javaType="java.time.LocalDateTime" column="update_time"/>
+        </table>
     </context>
 </generatorConfiguration>
