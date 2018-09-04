@@ -1,5 +1,7 @@
 package com.github.wkw.share.vo;
 
+import java.util.List;
+
 /**
  * Created by GoGo on  2018/9/3
  * Email zjwkw1992@163.com
@@ -12,9 +14,20 @@ public class CommentEntity {
     private Integer fromUid;
 
     private Integer tId;
-    private String nickName;
+    private String fromNickName;
+    private String toNickName;
     private String content;
     private String time;
+
+    private List<CommentEntity> childComments;
+
+    public List<CommentEntity> getChildComments() {
+        return childComments;
+    }
+
+    public void setChildComments(List<CommentEntity> childComments) {
+        this.childComments = childComments;
+    }
 
     public String getTime() {
         return time;
@@ -56,12 +69,20 @@ public class CommentEntity {
         this.tId = tId;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getFromNickName() {
+        return fromNickName;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setFromNickName(String fromNickName) {
+        this.fromNickName = fromNickName;
+    }
+
+    public String getToNickName() {
+        return toNickName;
+    }
+
+    public void setToNickName(String toNickName) {
+        this.toNickName = toNickName;
     }
 
     public String getContent() {

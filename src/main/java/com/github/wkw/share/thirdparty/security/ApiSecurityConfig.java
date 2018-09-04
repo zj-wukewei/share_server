@@ -40,6 +40,7 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(rememberMeAuthenticationFilter(), BasicAuthenticationFilter.class)
+                .addFilterAfter(userInfoFilter(), BasicAuthenticationFilter.class)
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .exceptionHandling()
@@ -55,6 +56,11 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(rememberMeAuthenticationProvider());
+    }
+
+    @Bean
+    public UserInfoFilter userInfoFilter() {
+        return new UserInfoFilter();
     }
 
     @Bean

@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by GoGo on  2018/9/3
@@ -41,8 +43,13 @@ public class CommentServiceImpl implements CommentService {
         ListDataEntity<ShareComment> comments = list(request);
         return FastjsonUtils.transformListData(comments, CommentEntity.class, (TransInvoke<ShareComment, CommentEntity>) (shareComment, commentEntity) -> {
             ShareUserInfo info = userService.selectByUid(shareComment.getFromUid());
-            commentEntity.setNickName(info.getNickname());
+            commentEntity.setFromNickName(info.getNickname());
             commentEntity.setTime(DateUtils.betweenTime(shareComment.getAddTime()));
+            if (shareComment.getId() != null && request.isCommunity()) {
+                ShareUserInfo toUserInfo = userService.selectByUid(shareComment.getToUid());
+                commentEntity.setToNickName(toUserInfo.getNickname());
+                commentEntity.setChildComments(selectChildComments(shareComment.getFeedId(), shareComment.getId()));
+            }
             return commentEntity;
         });
     }
@@ -53,8 +60,32 @@ public class CommentServiceImpl implements CommentService {
             ShareCommentExample example = new ShareCommentExample()
                     .createCriteria()
                     .andFeedIdEqualTo(request.getFeedId())
+                    .andTIdIsNull()
                     .example();
             return shareCommentMapper.selectByExample(example);
         });
+    }
+
+    @Override
+    public List<CommentEntity> selectChildComments(Integer feedId, Integer commentId) {
+        ShareCommentExample example = new ShareCommentExample()
+                .createCriteria()
+                .andFeedIdEqualTo(feedId)
+                .andTIdEqualTo(commentId)
+                .example();
+        return shareCommentMapper.selectByExample(example).stream()
+                .map((it) -> {
+                    CommentEntity entity = FastjsonUtils.transformObject(it, CommentEntity.class);
+                    if (it.getFromUid() != null) {
+                        ShareUserInfo fromUserInfo = userService.selectByUid(it.getFromUid());
+                        entity.setFromNickName(fromUserInfo.getNickname());
+                    }
+                    if (it.getToUid() != null) {
+                        ShareUserInfo toUserInfo = userService.selectByUid(it.getToUid());
+                        entity.setToNickName(toUserInfo.getNickname());
+                    }
+                    return entity;
+                })
+                .collect(Collectors.toList());
     }
 }

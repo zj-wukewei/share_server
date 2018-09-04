@@ -40,6 +40,7 @@ public class TokenService extends TokenBasedRememberMeServices {
 
     @Override
     protected UserDetails processAutoLoginCookie(String[] cookieTokens, HttpServletRequest request, HttpServletResponse response) {
+        logger.info("processAutoLoginCookie");
         if (cookieTokens.length != 3) {
             throw new InvalidCookieException("Cookie token did not contain 3 tokens, but contained '" + Arrays.asList(cookieTokens) + "'");
         }
