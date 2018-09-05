@@ -1,15 +1,12 @@
 package com.github.wkw.share.exception;
 
 import com.github.wkw.share.Constants;
-import com.github.wkw.share.utils.ObjectUtils;
 import com.github.wkw.share.vo.ShareResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -87,5 +84,12 @@ public class ExceptionController {
     @ResponseBody
     public ShareResponse handleAuthenticationException() {
         return ShareResponse.fail(STATUS_CODE.ERROR_RE_LOGIN);
+    }
+
+
+    @RequestMapping(value = "/1010")
+    @ResponseBody
+    public ShareResponse handleUserInfoNoFoundException() {
+        return ShareResponse.fail(STATUS_CODE.ERROR_PERFECT_PROFILE);
     }
 }

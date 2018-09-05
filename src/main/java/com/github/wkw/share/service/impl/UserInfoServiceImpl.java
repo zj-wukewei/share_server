@@ -3,7 +3,9 @@ package com.github.wkw.share.service.impl;
 import com.github.wkw.share.dao.ShareUserInfoMapper;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.domain.ShareUserInfoExample;
+import com.github.wkw.share.service.CacheService;
 import com.github.wkw.share.service.UserInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,16 +20,21 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Resource
     ShareUserInfoMapper userInfoMapper;
 
+    @Autowired
+    CacheService cacheService;
+
     @Override
     public ShareUserInfo selectByUid(Integer uId) {
+        ShareUserInfo user = cacheService.getUserInfoByUserId(uId);
+        if (user != null) {
+            return user;
+        }
         ShareUserInfoExample example = new ShareUserInfoExample()
                 .createCriteria()
                 .andUserIdEqualTo(uId)
                 .example();
         ShareUserInfo info = userInfoMapper.selectOneByExample(example);
-//        if (info == null) {
-//            throw new UserInfoUnFoundException();
-//        }
+        cacheService.insertUserInfo(info);
         return info;
     }
 }

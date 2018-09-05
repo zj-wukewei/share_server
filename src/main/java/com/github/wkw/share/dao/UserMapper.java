@@ -14,4 +14,8 @@ import org.apache.ibatis.annotations.Select;
 public interface UserMapper {
     @Select("select u.id, u.phone,u.password, u.app_type as appType, r.role_name as roleName, u.app_model as appModel, u.token  from share_user u left join share_role r on u.role_id = r.id where u.phone =  #{mobile}")
     ShareUserDetail loadUserByUsername(@Param("mobile") String mobile);
+
+
+    @Select("SELECT COUNT(i.id) FROM share_user_info i LEFT JOIN share_user u ON i.user_id = u.id  WHERE u.phone = #{mobile}")
+    int findUserInfo(@Param("mobile") String mobile);
 }
