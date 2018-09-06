@@ -90,6 +90,7 @@ public class ExceptionController {
     @RequestMapping(value = "/1010")
     @ResponseBody
     public ShareResponse handleUserInfoNoFoundException() {
+        logger.error("Request: handleUserInfoNoFoundException");
         return ShareResponse.fail(STATUS_CODE.ERROR_PERFECT_PROFILE);
     }
 }

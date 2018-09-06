@@ -5,6 +5,8 @@ import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.domain.ShareUserInfoExample;
 import com.github.wkw.share.service.CacheService;
 import com.github.wkw.share.service.UserInfoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ import javax.annotation.Resource;
  */
 @Service
 public class UserInfoServiceImpl implements UserInfoService {
+
+    private final Logger logger = LoggerFactory.getLogger(getClass());
     @Resource
     ShareUserInfoMapper userInfoMapper;
 
@@ -27,6 +31,7 @@ public class UserInfoServiceImpl implements UserInfoService {
     public ShareUserInfo selectByUid(Integer uId) {
         ShareUserInfo user = cacheService.getUserInfoByUserId(uId);
         if (user != null) {
+            logger.info("user info from cache");
             return user;
         }
         ShareUserInfoExample example = new ShareUserInfoExample()
