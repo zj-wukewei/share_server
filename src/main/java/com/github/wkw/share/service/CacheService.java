@@ -10,5 +10,7 @@ import com.github.wkw.share.domain.ShareUserInfo;
 public interface CacheService {
     void insertUserInfo(ShareUserInfo userInfo);
 
+    void removeUserInfo(Integer userId);
+
     ShareUserInfo getUserInfoByUserId(Integer userId);
 }

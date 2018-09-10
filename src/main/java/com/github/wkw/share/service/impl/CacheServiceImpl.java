@@ -23,6 +23,13 @@ public class CacheServiceImpl implements CacheService {
     }
 
     @Override
+    public void removeUserInfo(Integer userId) {
+        if (userId != null) {
+            userInfoCache.remove(userId);
+        }
+    }
+
+    @Override
     public ShareUserInfo getUserInfoByUserId(Integer userId) {
         if (userInfoCache.containsKey(userId)) {
             return userInfoCache.get(userId);

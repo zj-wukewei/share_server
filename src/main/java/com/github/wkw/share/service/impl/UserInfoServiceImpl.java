@@ -42,4 +42,15 @@ public class UserInfoServiceImpl implements UserInfoService {
         cacheService.insertUserInfo(info);
         return info;
     }
+
+    @Override
+    public int insertUserInfo(ShareUserInfo shareUserInfo) {
+        ShareUserInfo userInfo = selectByUid(shareUserInfo.getUserId());
+        if (userInfo == null) {
+            return userInfoMapper.insert(shareUserInfo);
+        }
+        cacheService.removeUserInfo(userInfo.getUserId());
+        shareUserInfo.setId(userInfo.getId());
+        return userInfoMapper.updateByPrimaryKeySelective(shareUserInfo);
+    }
 }

@@ -13,6 +13,7 @@ import com.github.wkw.share.vo.ShareResponse;
 import com.github.wkw.share.vo.UserEntity;
 import com.github.wkw.share.vo.UserInfoEntity;
 import com.github.wkw.share.vo.request.LoginRequest;
+import com.github.wkw.share.vo.request.UserInfoRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,14 @@ public class UserController {
         ShareUserInfo userInfo = userInfoService.selectByUid(id);
         UserInfoEntity entity = FastjsonUtils.transformObject(userInfo, UserInfoEntity.class);
         return ShareResponse.ok(entity);
+    }
+
+    @RequestMapping(value = "/info", method = RequestMethod.POST)
+    public ShareResponse<Void> postInformation(@LoginUserId Integer id, @RequestBody @Validated UserInfoRequest request) {
+        ShareUserInfo userInfo = FastjsonUtils.transformObject(request, ShareUserInfo.class);
+        userInfo.setUserId(id);
+        userInfoService.insertUserInfo(userInfo);
+        return ShareResponse.ok(null);
     }
 
 

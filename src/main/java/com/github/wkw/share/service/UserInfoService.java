@@ -9,4 +9,6 @@ import com.github.wkw.share.domain.ShareUserInfo;
  */
 public interface UserInfoService {
     ShareUserInfo selectByUid(Integer uId);
+
+    int insertUserInfo(ShareUserInfo shareUserInfo);
 }
