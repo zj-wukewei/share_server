@@ -30,15 +30,23 @@ public class UserInfoFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = httpServletRequest.getHeader(Constants.HTTP_HEADER.TOKEN);
         logger.info("UserInfoFilter" + token);
-        final String phone = TokenService.decodeToken(token)[0];
-        final int userInfo = userMapper.findUserInfo(phone);
-        if (userInfo == 0) {
-            logger.info("Not found this UserInfo phone:" + phone);
-            httpServletResponse.setStatus(HttpServletResponse.SC_ACCEPTED);
-            RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/error/1010");
-            dispatcher.forward(httpServletRequest, httpServletResponse);
-            return;
+        logger.info("UserInfoFilter" + httpServletRequest.getRequestURI());
+        final String url = httpServletRequest.getRequestURI();
+
+        if (url.startsWith("/user/login") || url.startsWith("/user/login/register")) {
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+        } else {
+            final String phone = TokenService.decodeToken(token)[0];
+            final int userInfo = userMapper.findUserInfo(phone);
+            if (userInfo == 0) {
+                logger.info("Not found this UserInfo phone:" + phone);
+                httpServletResponse.setStatus(HttpServletResponse.SC_ACCEPTED);
+                RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/error/1010");
+                dispatcher.forward(httpServletRequest, httpServletResponse);
+                return;
+            }
+            filterChain.doFilter(httpServletRequest, httpServletResponse);
+
         }
-        filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 }
