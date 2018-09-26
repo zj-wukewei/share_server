@@ -28,12 +28,15 @@ public class ShareCommentServiceTest {
     public void before() throws Exception {
         comment = new ShareComment();
         comment.setFeedId(1);
-        comment.setFromUid(1);
-        comment.setContent("你好啊");
+        comment.setFromUid(2);
+        comment.setToUid(1);
+        comment.setContent("aaaa你好啊11111");
+        comment.settId(5);
         comment.setAddTime(LocalDateTime.now());
         comment.setUpdateTime(LocalDateTime.now());
         request = new CommentQryRequest();
         request.setFeedId(1);
+        request.setCommunity(true);
     }
 
     @After
