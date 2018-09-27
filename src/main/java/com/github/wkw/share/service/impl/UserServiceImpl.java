@@ -7,8 +7,11 @@ import com.github.wkw.share.domain.ShareUserDetail;
 import com.github.wkw.share.domain.ShareUserExample;
 import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.service.UserService;
+import com.github.wkw.share.thirdparty.page.AbstractQry;
+import com.github.wkw.share.thirdparty.page.PageCallBackUtil;
 import com.github.wkw.share.thirdparty.security.TokenService;
 import com.github.wkw.share.utils.StringUtils;
+import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.UserEntity;
 import com.github.wkw.share.vo.request.LoginRequest;
 import org.springframework.stereotype.Service;
@@ -63,5 +66,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public ShareUserDetail findDetailByPhone(String phone) {
         return null;
+    }
+
+    @Override
+    public ListDataEntity<ShareUser> users(AbstractQry qry) {
+        return PageCallBackUtil.selectRtnPage(qry, () -> shareUserMapper.selectByExample(null));
     }
 }
