@@ -11,4 +11,5 @@ public interface UserInfoService {
     ShareUserInfo selectByUid(Integer uId);
 
     int insertUserInfo(ShareUserInfo shareUserInfo);
+
 }

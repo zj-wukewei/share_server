@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 
 /**
  * Created by GoGo on  2018/8/6
@@ -50,7 +51,9 @@ public class UserInfoServiceImpl implements UserInfoService {
             return userInfoMapper.insert(shareUserInfo);
         }
         cacheService.removeUserInfo(userInfo.getUserId());
+        shareUserInfo.setUpdateTime(LocalDateTime.now());
         shareUserInfo.setId(userInfo.getId());
         return userInfoMapper.updateByPrimaryKeySelective(shareUserInfo);
     }
+
 }

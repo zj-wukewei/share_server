@@ -72,4 +72,13 @@ public class UserServiceImpl implements UserService {
     public ListDataEntity<ShareUser> users(AbstractQry qry) {
         return PageCallBackUtil.selectRtnPage(qry, () -> shareUserMapper.selectByExample(null));
     }
+
+    @Override
+    public int changeUserState(Integer uId, boolean deleted) {
+        ShareUser user = new ShareUser();
+        user.setId(uId);
+        user.setDeleted(deleted);
+        user.setUpdateTime(LocalDateTime.now());
+        return shareUserMapper.updateByPrimaryKeySelective(user);
+    }
 }

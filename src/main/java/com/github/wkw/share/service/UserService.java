@@ -15,4 +15,6 @@ public interface UserService {
     ShareUserDetail findDetailByPhone(String phone);
 
     ListDataEntity<ShareUser> users(AbstractQry qry);
+
+    int changeUserState(Integer uId, boolean deleted);
 }
