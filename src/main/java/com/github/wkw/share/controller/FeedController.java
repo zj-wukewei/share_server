@@ -35,6 +35,13 @@ public class FeedController {
         return ShareResponse.ok(feedService.feedEntityList(qry, id));
     }
 
+    @RequestMapping(value = "/{feedId}", method = RequestMethod.GET)
+    public ShareResponse<FeedEntity> feedDetail(@PathVariable("feedId") Integer feedId) throws CommonException {
+        if (feedId == null) {
+            throw new CommonException("feedId 不能为空");
+        }
+        return ShareResponse.ok(feedService.selectFeedEntityById(feedId));
+    }
 
     @RequestMapping(value = "/like/{feedId}", method = RequestMethod.GET)
     public ShareResponse<LikeEntity> like(@LoginUserId Integer id, @PathVariable("feedId") Integer feedId) throws UserInfoUnFoundException {
