@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int changeUserState(Integer uId, boolean deleted) {
+    public int changeUserState(Integer uId, Boolean deleted) {
         ShareUser user = new ShareUser();
         user.setId(uId);
         user.setDeleted(deleted);

@@ -16,5 +16,5 @@ public interface UserService {
 
     ListDataEntity<ShareUser> users(AbstractQry qry);
 
-    int changeUserState(Integer uId, boolean deleted);
+    int changeUserState(Integer uId, Boolean deleted);
 }

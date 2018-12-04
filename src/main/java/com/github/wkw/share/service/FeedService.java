@@ -24,6 +24,8 @@ public interface FeedService {
 
     ShareFeed selectById(Integer feedId);
 
+    FeedEntity selectFeedEntityById(Integer feedId);
+
     int update(ShareFeed feed);
 
 }

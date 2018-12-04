@@ -105,6 +105,12 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
+    public FeedEntity selectFeedEntityById(Integer feedId) {
+        ShareFeed feed = feedMapper.selectByPrimaryKey(feedId);
+        return FastjsonUtils.transformObject(feed, FeedEntity.class);
+    }
+
+    @Override
     public int update(ShareFeed feed) {
         return feedMapper.updateByPrimaryKeySelective(feed);
     }
