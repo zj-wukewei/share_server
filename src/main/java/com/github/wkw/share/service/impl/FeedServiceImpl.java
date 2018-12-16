@@ -115,9 +115,15 @@ public class FeedServiceImpl implements FeedService {
     }
 
     @Override
-    public FeedEntity selectFeedEntityById(Integer feedId) {
+    public FeedEntity selectFeedEntityById(Integer feedId, Integer userId) {
         ShareFeed feed = feedMapper.selectByPrimaryKey(feedId);
-        return FastjsonUtils.transformObject(feed, FeedEntity.class);
+        final ShareUserInfo info = userInfoService.selectByUid(feed.getUserId());
+        boolean liked = likeService.liked(userId, feed.getId());
+        FeedEntity entity = FastjsonUtils.transformObject(feed, FeedEntity.class);
+        entity.setUserName(info.getNickname());
+        entity.setUserAvatar(info.getAvatar());
+        entity.setLiked(liked);
+        return entity;
     }
 
     @Override

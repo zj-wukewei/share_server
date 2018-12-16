@@ -37,11 +37,11 @@ public class FeedController {
     }
 
     @RequestMapping(value = "/{feedId}", method = RequestMethod.GET)
-    public ShareResponse<FeedEntity> feedDetail(@PathVariable("feedId") Integer feedId) throws CommonException {
+    public ShareResponse<FeedEntity> feedDetail(@PathVariable("feedId") Integer feedId, @LoginUserId Integer id) throws CommonException {
         if (feedId == null) {
             throw new CommonException("feedId 不能为空");
         }
-        return ShareResponse.ok(feedService.selectFeedEntityById(feedId));
+        return ShareResponse.ok(feedService.selectFeedEntityById(feedId, id));
     }
 
     @RequestMapping(value = "/like/{feedId}", method = RequestMethod.GET)
