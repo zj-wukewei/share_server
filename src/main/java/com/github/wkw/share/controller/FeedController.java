@@ -32,6 +32,7 @@ public class FeedController {
 
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody @Validated FeedRequest qry, @LoginUserId Integer id) throws CommonException, UserInfoUnFoundException {
+        qry.setDeleted(false);
         return ShareResponse.ok(feedService.feedEntityList(qry, id));
     }
 

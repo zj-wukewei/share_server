@@ -16,10 +16,12 @@ import com.github.wkw.share.utils.ObjectUtils;
 import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.request.FeedRequest;
+import com.github.wkw.share.vo.request.FeedStatusRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 
 /**
  * Created by GoGo on  2018/8/6
@@ -48,15 +50,22 @@ public class FeedServiceImpl implements FeedService {
         return PageCallBackUtil.selectRtnPage(qry, () -> {
             ShareFeedExample example = new ShareFeedExample();
             example.setOrderByClause("add_time desc");
+            if (ObjectUtils.isNotNull(qry.isDeleted())) {
+                example.createCriteria()
+                        .andDeletedEqualTo(qry.isDeleted());
+            }
+
             return feedMapper.selectByExample(example);
         });
     }
+
 
     @Override
     public ListDataEntity<ShareFeed> selectHot(AbstractQry qry) {
         return PageCallBackUtil.selectRtnPage(qry, () -> {
             ShareFeedExample example = new ShareFeedExample();
             example.createCriteria()
+                    .andDeletedEqualTo(false)
                     .andLikeCountGreaterThanOrEqualTo(HOT_LIKE_COUNT);
             example.setOrderByClause("add_time desc");
             return feedMapper.selectByExample(example);
@@ -68,6 +77,7 @@ public class FeedServiceImpl implements FeedService {
         return PageCallBackUtil.selectRtnPage(qry, () -> {
             ShareFeedExample example = new ShareFeedExample();
             example.createCriteria()
+                    .andDeletedEqualTo(false)
                     .andTagIdEqualTo(TAG_COMMUNITY);
             example.setOrderByClause("add_time desc");
             return feedMapper.selectByExample(example);
@@ -113,6 +123,19 @@ public class FeedServiceImpl implements FeedService {
     @Override
     public int update(ShareFeed feed) {
         return feedMapper.updateByPrimaryKeySelective(feed);
+    }
+
+    @Override
+    public int updateFeedStatus(FeedStatusRequest feedStatusRequest) throws CommonException {
+        ShareFeed find = feedMapper.selectByPrimaryKey(feedStatusRequest.getFeedId());
+        if (ObjectUtils.isNull(find)) {
+            throw new CommonException("无效的feedId");
+        }
+        ShareFeed shareFeed = new ShareFeed();
+        shareFeed.setId(feedStatusRequest.getFeedId());
+        shareFeed.setUpdateTime(LocalDateTime.now());
+        shareFeed.setDeleted(feedStatusRequest.isDeleted());
+        return feedMapper.updateByPrimaryKeySelective(shareFeed);
     }
 
 }

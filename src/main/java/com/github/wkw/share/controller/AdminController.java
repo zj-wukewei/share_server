@@ -1,15 +1,21 @@
 package com.github.wkw.share.controller;
 
+import com.github.wkw.share.annotion.LoginUserId;
 import com.github.wkw.share.domain.ShareCategory;
 import com.github.wkw.share.domain.ShareUser;
 import com.github.wkw.share.domain.ShareUserInfo;
+import com.github.wkw.share.exception.CommonException;
+import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.service.*;
 import com.github.wkw.share.thirdparty.page.AbstractQry;
 import com.github.wkw.share.utils.FastjsonUtils;
+import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.ShareResponse;
 import com.github.wkw.share.vo.UserInfoEntity;
 import com.github.wkw.share.vo.request.CategoryRequest;
+import com.github.wkw.share.vo.request.FeedRequest;
+import com.github.wkw.share.vo.request.FeedStatusRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -75,5 +81,17 @@ public class AdminController {
     public ShareResponse<Integer> postInformation(@RequestBody ShareUserInfo request) {
         int status = userInfoService.insertUserInfo(request);
         return ShareResponse.ok(status);
+    }
+
+    @RequestMapping(value = "/feed/list", method = RequestMethod.POST)
+    public ShareResponse<ListDataEntity<FeedEntity>> lists(@RequestBody @Validated FeedRequest qry, @LoginUserId Integer id) throws CommonException, UserInfoUnFoundException {
+        qry.setDeleted(null);
+        return ShareResponse.ok(feedService.feedEntityList(qry, id));
+    }
+
+
+    @RequestMapping(value = "/feed/status", method = RequestMethod.POST)
+    public ShareResponse<Integer> deleteFeed(@Validated @RequestBody FeedStatusRequest statusRequest) throws CommonException {
+        return ShareResponse.ok(feedService.updateFeedStatus(statusRequest));
     }
 }

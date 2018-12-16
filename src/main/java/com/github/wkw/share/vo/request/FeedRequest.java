@@ -17,8 +17,18 @@ public class FeedRequest extends AbstractQry {
     @StringArray(value = {"1", "2", "3"}, message = "type只能为 \"1\"：社区 \"2\"： 首页  \"3\"：热门")
     private String type;
 
+    private Boolean deleted;
+
     public String getType() {
         return type;
+    }
+
+    public Boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
     }
 
     public void setType(String type) {

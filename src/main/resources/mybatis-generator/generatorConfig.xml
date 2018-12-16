@@ -45,9 +45,9 @@
 
         <!--数据库连接信息-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.3.19:3306/share?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"
+                        connectionURL="jdbc:mysql://192.168.1.114:3306/share?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;verifyServerCertificate=false&amp;useSSL=false"
                         userId="root"
-                        password="Vongi..2017"/>
+                        password="wukewei123456"/>
 
 
         <javaModelGenerator targetPackage="com.github.wkw.share.domain" targetProject="src/main/java"/>

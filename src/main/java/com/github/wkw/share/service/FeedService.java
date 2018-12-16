@@ -7,6 +7,7 @@ import com.github.wkw.share.thirdparty.page.AbstractQry;
 import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.request.FeedRequest;
+import com.github.wkw.share.vo.request.FeedStatusRequest;
 
 /**
  * Created by GoGo on  2018/8/6
@@ -27,5 +28,9 @@ public interface FeedService {
     FeedEntity selectFeedEntityById(Integer feedId);
 
     int update(ShareFeed feed);
+
+    int updateFeedStatus(FeedStatusRequest feedStatusRequest) throws CommonException;
+
+
 
 }
