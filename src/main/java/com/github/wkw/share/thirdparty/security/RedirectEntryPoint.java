@@ -18,7 +18,7 @@ public class RedirectEntryPoint implements AuthenticationEntryPoint {
             throws IOException, ServletException {
         if (!response.isCommitted()) {
 //            request.setAttribute(WebAttributes.ACCESS_DENIED_403, authException);
-            response.setStatus(HttpServletResponse.SC_ACCEPTED);
+            response.setStatus(HttpServletResponse.SC_OK);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/error/403");
             dispatcher.forward(request, response);
         }

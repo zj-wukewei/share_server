@@ -83,6 +83,7 @@ public class ExceptionController {
     @RequestMapping(value = "/403")
     @ResponseBody
     public ShareResponse handleAuthenticationException() {
+        logger.error("Request: handleAuthenticationException");
         return ShareResponse.fail(STATUS_CODE.ERROR_RE_LOGIN);
     }
 
