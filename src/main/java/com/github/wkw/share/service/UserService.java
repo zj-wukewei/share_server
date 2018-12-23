@@ -9,12 +9,18 @@ import com.github.wkw.share.vo.UserEntity;
 import com.github.wkw.share.vo.request.LoginRequest;
 
 public interface UserService {
+
     UserEntity login(LoginRequest request, Integer appId, String appVersion, String appModel) throws CommonException;
+
     int insertUser(ShareUser user);
+
     ShareUser findByPhone(String phone);
+
     ShareUserDetail findDetailByPhone(String phone);
 
     ListDataEntity<ShareUser> users(AbstractQry qry);
 
     int changeUserState(Integer uId, Boolean deleted);
+
+    int logOut(Integer uId);
 }

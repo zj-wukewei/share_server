@@ -1,6 +1,5 @@
 package com.github.wkw.share.utils;
 
-import com.github.wkw.share.exception.UserInfoUnFoundException;
 
 /**
  * Created by GoGo on  2018/9/3
@@ -8,5 +7,5 @@ import com.github.wkw.share.exception.UserInfoUnFoundException;
  * GitHub https://github.com/zj-wukewei
  */
 public interface TransInvoke<T, R> {
-    R invoke(T o, R r) throws UserInfoUnFoundException;
+    R invoke(T o, R r);
 }

@@ -39,16 +39,17 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ListDataEntity<CommentEntity> commentsList(CommentQryRequest request) throws Exception {
+    public ListDataEntity<CommentEntity> commentsList(CommentQryRequest request) {
         ListDataEntity<ShareComment> comments = list(request);
         return FastjsonUtils.transformListData(comments, CommentEntity.class, (TransInvoke<ShareComment, CommentEntity>) (shareComment, commentEntity) -> {
             ShareUserInfo info = userService.selectByUid(shareComment.getFromUid());
             commentEntity.setFromNickName(info.getNickname());
+            commentEntity.setAvatar(info.getAvatar());
             commentEntity.setTime(DateUtils.betweenTime(shareComment.getAddTime()));
-            if (shareComment.getId() != null && request.isCommunity()) {
+            if (shareComment.getId() != null) {
                 ShareUserInfo toUserInfo = userService.selectByUid(shareComment.getToUid());
                 commentEntity.setToNickName(toUserInfo.getNickname());
-                commentEntity.setChildComments(selectChildComments(shareComment.getFeedId(), shareComment.getId()));
+                commentEntity.setChildComments(selectChildComments(request.getFeedId(), shareComment.getId()));
             }
             return commentEntity;
         });
@@ -56,12 +57,12 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ListDataEntity<ShareComment> list(CommentQryRequest request) {
+        ShareCommentExample example = new ShareCommentExample()
+                .createCriteria()
+                .andFeedIdEqualTo(request.getFeedId())
+                .andTIdIsNull()
+                .example();
         return PageCallBackUtil.selectRtnPage(request, () -> {
-            ShareCommentExample example = new ShareCommentExample()
-                    .createCriteria()
-                    .andFeedIdEqualTo(request.getFeedId())
-                    .andTIdIsNull()
-                    .example();
             return shareCommentMapper.selectByExample(example);
         });
     }
@@ -76,13 +77,17 @@ public class CommentServiceImpl implements CommentService {
         return shareCommentMapper.selectByExample(example).stream()
                 .map((it) -> {
                     CommentEntity entity = FastjsonUtils.transformObject(it, CommentEntity.class);
+                    entity.setTime(DateUtils.betweenTime(it.getAddTime()));
                     if (it.getFromUid() != null) {
                         ShareUserInfo fromUserInfo = userService.selectByUid(it.getFromUid());
                         entity.setFromNickName(fromUserInfo.getNickname());
+                        entity.setAvatar(fromUserInfo.getAvatar());
+
                     }
                     if (it.getToUid() != null) {
                         ShareUserInfo toUserInfo = userService.selectByUid(it.getToUid());
                         entity.setToNickName(toUserInfo.getNickname());
+
                     }
                     return entity;
                 })

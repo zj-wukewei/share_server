@@ -76,4 +76,10 @@ public class UserController {
     public ShareResponse<List<Follow>> fans(@LoginUserId Integer id) throws UserInfoUnFoundException {
         return ShareResponse.ok(followService.myFans(id));
     }
+
+
+    @GetMapping(value = "/logout")
+    public ShareResponse<Integer> logout(@LoginUserId Integer id) {
+        return ShareResponse.ok(userService.logOut(id));
+    }
 }

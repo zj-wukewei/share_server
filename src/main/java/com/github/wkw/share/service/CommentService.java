@@ -15,7 +15,7 @@ import java.util.List;
 public interface CommentService {
     int insertComment(ShareComment shareComment);
 
-    ListDataEntity<CommentEntity> commentsList(CommentQryRequest request) throws Exception;
+    ListDataEntity<CommentEntity> commentsList(CommentQryRequest request);
 
     ListDataEntity<ShareComment> list(CommentQryRequest request);
 

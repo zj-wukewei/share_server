@@ -16,6 +16,7 @@ public class CommentEntity {
     private Integer tId;
     private String fromNickName;
     private String toNickName;
+    private String avatar;
     private String content;
     private String time;
 
@@ -83,6 +84,14 @@ public class CommentEntity {
 
     public void setToNickName(String toNickName) {
         this.toNickName = toNickName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getContent() {

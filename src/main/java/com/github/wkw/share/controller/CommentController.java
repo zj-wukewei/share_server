@@ -39,8 +39,7 @@ public class CommentController {
     }
 
     @RequestMapping(value = "list", method = RequestMethod.POST)
-    public ShareResponse<ListDataEntity<CommentEntity>> list(CommentQryRequest commentQryRequest) {
-
-        return ShareResponse.ok(null);
+    public ShareResponse<ListDataEntity<CommentEntity>> list(@RequestBody @Validated CommentQryRequest commentQryRequest) {
+        return ShareResponse.ok(commentService.commentsList(commentQryRequest));
     }
 }

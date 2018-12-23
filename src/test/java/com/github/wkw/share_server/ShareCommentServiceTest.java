@@ -36,7 +36,6 @@ public class ShareCommentServiceTest {
         comment.setUpdateTime(LocalDateTime.now());
         request = new CommentQryRequest();
         request.setFeedId(1);
-        request.setCommunity(true);
     }
 
     @After

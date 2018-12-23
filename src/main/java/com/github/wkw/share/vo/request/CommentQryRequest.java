@@ -19,16 +19,6 @@ public class CommentQryRequest extends AbstractQry {
         return feedId;
     }
 
-    private boolean isCommunity;
-
-    public boolean isCommunity() {
-        return isCommunity;
-    }
-
-    public void setCommunity(boolean community) {
-        isCommunity = community;
-    }
-
     public void setFeedId(Integer feedId) {
         this.feedId = feedId;
     }

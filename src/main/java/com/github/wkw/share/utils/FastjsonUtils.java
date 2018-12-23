@@ -36,7 +36,8 @@ public class FastjsonUtils {
         return dataEntity;
     }
 
-    public static <T> ListDataEntity<T> transformListData(ListDataEntity entity, Class<T> to, @NonNull TransInvoke invoke) throws Exception {
+
+    public static <T> ListDataEntity<T> transformListData(ListDataEntity entity, Class<T> to, @NonNull TransInvoke invoke) {
         if (entity == null) {
             return new ListDataEntity<>();
         }

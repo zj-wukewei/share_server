@@ -81,4 +81,13 @@ public class UserServiceImpl implements UserService {
         user.setUpdateTime(LocalDateTime.now());
         return shareUserMapper.updateByPrimaryKeySelective(user);
     }
+
+    @Override
+    public int logOut(Integer uId) {
+        ShareUser user = new ShareUser();
+        user.setId(uId);
+        user.setUpdateTime(LocalDateTime.now());
+        user.setToken("");
+        return shareUserMapper.updateByPrimaryKeySelective(user);
+    }
 }
