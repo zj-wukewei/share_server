@@ -5,7 +5,7 @@ package com.github.wkw.share.vo;
  * Email zjwkw1992@163.com
  * GitHub https://github.com/zj-wukewei
  */
-public class Follow {
+public class FollowEntity {
     private Integer id;
 
     private Integer userId;

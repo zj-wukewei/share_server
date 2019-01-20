@@ -3,8 +3,7 @@ package com.github.wkw.share_server;
 import com.github.wkw.share.ShareServerApplication;
 import com.github.wkw.share.service.impl.FollowServiceImpl;
 import com.github.wkw.share.utils.ListUtils;
-import com.github.wkw.share.vo.Follow;
-import com.github.wkw.share.vo.UserInfoEntity;
+import com.github.wkw.share.vo.FollowEntity;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +16,7 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ShareServerApplication.class)
-public class ShareFollowServiceTest {
+public class ShareFollowEntityServiceTest {
     @Autowired
     private FollowServiceImpl userService;
 
@@ -40,9 +39,9 @@ public class ShareFollowServiceTest {
 
     @Test
     public void myFollow() throws Exception {
-        List<Follow> entityList = userService.myFollow(1);
+        List<FollowEntity> entityList = userService.myFollow(1);
         if (ListUtils.isNotEmpty(entityList)) {
-            for (Follow entity : entityList) {
+            for (FollowEntity entity : entityList) {
                 System.out.print(entity.getUserId());
             }
         }
@@ -50,9 +49,9 @@ public class ShareFollowServiceTest {
 
     @Test
     public void myFans() throws Exception {
-        List<Follow> entityList = userService.myFans(1);
+        List<FollowEntity> entityList = userService.myFans(1);
         if (ListUtils.isNotEmpty(entityList)) {
-            for (Follow entity : entityList) {
+            for (FollowEntity entity : entityList) {
                 System.out.print(entity.getUserId());
             }
         }

@@ -2,8 +2,8 @@ package com.github.wkw.share.controller;
 
 import com.github.wkw.share.annotion.LoginUserId;
 import com.github.wkw.share.domain.ShareComment;
+import com.github.wkw.share.mapper.CommentEntityMapper;
 import com.github.wkw.share.service.CommentService;
-import com.github.wkw.share.utils.FastjsonUtils;
 import com.github.wkw.share.vo.CommentEntity;
 import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.ShareResponse;
@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
-
 /**
  * Created by GoGo on  2018/9/3
  * Email zjwkw1992@163.com
@@ -26,15 +24,16 @@ import java.time.LocalDateTime;
 @RequestMapping("/comment")
 @RestController
 public class CommentController {
+
     @Autowired
     CommentService commentService;
 
+    @Autowired
+    CommentEntityMapper commentEntityMapper;
+
     @RequestMapping(value = "/post", method = RequestMethod.POST)
     public ShareResponse<Integer> comment(@RequestBody @Validated CommentRequest qry, @LoginUserId Integer id) {
-        ShareComment comment = FastjsonUtils.transformObject(qry, ShareComment.class);
-        comment.setFromUid(id);
-        comment.setAddTime(LocalDateTime.now());
-        comment.setUpdateTime(LocalDateTime.now());
+        ShareComment comment = commentEntityMapper.commentRequestToShareComment(qry, id);
         return ShareResponse.ok(commentService.insertComment(comment));
     }
 

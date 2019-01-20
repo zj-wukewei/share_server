@@ -5,11 +5,11 @@ import com.github.wkw.share.domain.ShareFollow;
 import com.github.wkw.share.domain.ShareFollowExample;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.UserInfoUnFoundException;
+import com.github.wkw.share.mapper.FollowEntityMapper;
 import com.github.wkw.share.service.FollowService;
 import com.github.wkw.share.service.PushService;
 import com.github.wkw.share.service.UserInfoService;
-import com.github.wkw.share.utils.FastjsonUtils;
-import com.github.wkw.share.vo.Follow;
+import com.github.wkw.share.vo.FollowEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -43,19 +43,21 @@ public class FollowServiceImpl implements FollowService {
     @Autowired
     PushService pushService;
 
+    @Autowired
+    FollowEntityMapper followMapper;
+
     @Override
-    public List<Follow> myFollow(Integer userId) throws UserInfoUnFoundException {
+    public List<FollowEntity> myFollow(Integer userId) throws UserInfoUnFoundException {
         ShareFollowExample example = new ShareFollowExample()
                 .createCriteria()
                 .andUserLeftEqualTo(userId)
                 .example();
         List<ShareFollow> follows = shareFollowMapper.selectByExample(example);
         if (follows != null) {
-            List<Follow> userInfoList = new ArrayList<>(follows.size());
+            List<FollowEntity> userInfoList = new ArrayList<>(follows.size());
             for (ShareFollow follow : follows) {
                 ShareUserInfo userInfo = userInfoService.selectByUid(follow.getUserRight());
-                Follow entity = FastjsonUtils.transformObject(userInfo, Follow.class);
-                entity.setFollowed(true);
+                FollowEntity entity = followMapper.shareUserInfoToFollow(userInfo, true);
                 userInfoList.add(entity);
             }
             return userInfoList;
@@ -64,24 +66,23 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
-    public List<Follow> myFans(Integer userId) throws UserInfoUnFoundException {
+    public List<FollowEntity> myFans(Integer userId) throws UserInfoUnFoundException {
         ShareFollowExample example = new ShareFollowExample()
                 .createCriteria()
                 .andUserRightEqualTo(userId)
                 .example();
         List<ShareFollow> follows = shareFollowMapper.selectByExample(example);
         if (follows != null) {
-            List<Follow> userInfoList = new ArrayList<>(follows.size());
+            List<FollowEntity> userInfoList = new ArrayList<>(follows.size());
             for (ShareFollow follow : follows) {
                 ShareUserInfo userInfo = userInfoService.selectByUid(follow.getUserLeft());
-                Follow entity = FastjsonUtils.transformObject(userInfo, Follow.class);
                 ShareFollowExample followExample = new ShareFollowExample()
                         .createCriteria()
                         .andUserLeftEqualTo(userId)
-                        .andUserRightEqualTo(entity.getUserId())
+                        .andUserRightEqualTo(userInfo.getUserId())
                         .example();
                 ShareFollow shareFollow = shareFollowMapper.selectOneByExample(followExample);
-                entity.setFollowed(shareFollow != null);
+                FollowEntity entity = followMapper.shareUserInfoToFollow(userInfo, shareFollow != null);
                 userInfoList.add(entity);
             }
             return userInfoList;

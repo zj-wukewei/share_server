@@ -8,7 +8,7 @@ import com.github.wkw.share.service.FollowService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.service.UserService;
 import com.github.wkw.share.utils.FastjsonUtils;
-import com.github.wkw.share.vo.Follow;
+import com.github.wkw.share.vo.FollowEntity;
 import com.github.wkw.share.vo.ShareResponse;
 import com.github.wkw.share.vo.UserEntity;
 import com.github.wkw.share.vo.UserInfoEntity;
@@ -63,7 +63,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/follows", method = RequestMethod.GET)
-    public ShareResponse<List<Follow>> follow(@LoginUserId Integer id) throws UserInfoUnFoundException {
+    public ShareResponse<List<FollowEntity>> follow(@LoginUserId Integer id) throws UserInfoUnFoundException {
         return ShareResponse.ok(followService.myFollow(id));
     }
 
@@ -73,7 +73,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/fans", method = RequestMethod.GET)
-    public ShareResponse<List<Follow>> fans(@LoginUserId Integer id) throws UserInfoUnFoundException {
+    public ShareResponse<List<FollowEntity>> fans(@LoginUserId Integer id) throws UserInfoUnFoundException {
         return ShareResponse.ok(followService.myFans(id));
     }
 
