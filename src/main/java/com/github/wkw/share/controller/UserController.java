@@ -4,10 +4,10 @@ import com.github.wkw.share.annotion.LoginUserId;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.exception.UserInfoUnFoundException;
+import com.github.wkw.share.mapper.UserInfoEntityMapper;
 import com.github.wkw.share.service.FollowService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.service.UserService;
-import com.github.wkw.share.utils.FastjsonUtils;
 import com.github.wkw.share.vo.FollowEntity;
 import com.github.wkw.share.vo.ShareResponse;
 import com.github.wkw.share.vo.UserEntity;
@@ -38,6 +38,9 @@ public class UserController {
     @Autowired
     FollowService followService;
 
+    @Autowired
+    UserInfoEntityMapper userInfoEntityMapper;
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ShareResponse<UserEntity> login(@RequestBody @Validated LoginRequest loginRequest, @RequestHeader("APP-ID") Integer appId,
                                            @RequestHeader("APP-VERSION") String appVersion,
@@ -49,13 +52,13 @@ public class UserController {
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ShareResponse<UserInfoEntity> information(@LoginUserId Integer id) throws UserInfoUnFoundException {
         ShareUserInfo userInfo = userInfoService.selectByUid(id);
-        UserInfoEntity entity = FastjsonUtils.transformObject(userInfo, UserInfoEntity.class);
+        UserInfoEntity entity = userInfoEntityMapper.shareUserInfoToUserInfoEntity(userInfo);
         return ShareResponse.ok(entity);
     }
 
     @RequestMapping(value = "/info", method = RequestMethod.POST)
     public ShareResponse<Void> postInformation(@LoginUserId Integer id, @RequestBody @Validated UserInfoRequest request) {
-        ShareUserInfo userInfo = FastjsonUtils.transformObject(request, ShareUserInfo.class);
+        ShareUserInfo userInfo = userInfoEntityMapper.userInfoRequestToShareUserInfo(request);
         userInfo.setUserId(id);
         userInfoService.insertUserInfo(userInfo);
         return ShareResponse.ok(null);

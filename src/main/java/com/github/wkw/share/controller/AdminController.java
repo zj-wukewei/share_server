@@ -6,9 +6,9 @@ import com.github.wkw.share.domain.ShareUser;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.exception.UserInfoUnFoundException;
+import com.github.wkw.share.mapper.UserInfoEntityMapper;
 import com.github.wkw.share.service.*;
 import com.github.wkw.share.thirdparty.page.AbstractQry;
-import com.github.wkw.share.utils.FastjsonUtils;
 import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.ShareResponse;
@@ -47,6 +47,9 @@ public class AdminController {
     @Autowired
     CategoryService categoryService;
 
+    @Autowired
+    UserInfoEntityMapper userInfoEntityMapper;
+
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ShareResponse<ListDataEntity<ShareUser>> users(@RequestBody AbstractQry abstractQry) {
         return ShareResponse.ok(userService.users(abstractQry));
@@ -73,7 +76,7 @@ public class AdminController {
     @RequestMapping(value = "/user/{uId}", method = RequestMethod.GET)
     public ShareResponse<UserInfoEntity> userInfo(@PathVariable("uId") Integer uId) {
         ShareUserInfo userInfo = userInfoService.selectByUid(uId);
-        UserInfoEntity entity = FastjsonUtils.transformObject(userInfo, UserInfoEntity.class);
+        UserInfoEntity entity = userInfoEntityMapper.shareUserInfoToUserInfoEntity(userInfo);
         return ShareResponse.ok(entity);
     }
 

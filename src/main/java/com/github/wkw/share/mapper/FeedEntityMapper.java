@@ -8,6 +8,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 /**
  * author wukewei on 2019/1/19.
  * Email zjwkw1992@163.com
@@ -38,4 +40,6 @@ public interface FeedEntityMapper {
             @Mapping(source = "liked", target = "liked")
     })
     FeedEntity shareFeedToFeedEntityeedEntity(ShareFeed shareFeed, ShareUserInfo info, boolean liked);
+
+    List<FeedEntity> transformShareFeedList(List<ShareFeed> shareFeeds);
 }

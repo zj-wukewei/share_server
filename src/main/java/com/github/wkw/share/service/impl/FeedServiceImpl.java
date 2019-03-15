@@ -6,12 +6,12 @@ import com.github.wkw.share.domain.ShareFeedExample;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.exception.UserInfoUnFoundException;
+import com.github.wkw.share.mapper.FeedEntityMapper;
 import com.github.wkw.share.service.FeedService;
 import com.github.wkw.share.service.LikeService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.thirdparty.page.AbstractQry;
 import com.github.wkw.share.thirdparty.page.PageCallBackUtil;
-import com.github.wkw.share.utils.FastjsonUtils;
 import com.github.wkw.share.utils.ObjectUtils;
 import com.github.wkw.share.vo.FeedEntity;
 import com.github.wkw.share.vo.ListDataEntity;
@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by GoGo on  2018/8/6
@@ -44,6 +45,9 @@ public class FeedServiceImpl implements FeedService {
 
     @Autowired
     LikeService likeService;
+
+    @Autowired
+    FeedEntityMapper feedEntityMapper;
 
     @Override
     public ListDataEntity<ShareFeed> selectAll(FeedRequest qry) {
@@ -96,7 +100,9 @@ public class FeedServiceImpl implements FeedService {
         } else {
             throw new CommonException("tag 类型出错");
         }
-        ListDataEntity<FeedEntity> feeds = FastjsonUtils.transformListData(shareFeeds, FeedEntity.class);
+
+        List<FeedEntity> feedEntities = feedEntityMapper.transformShareFeedList(shareFeeds.getList());
+        ListDataEntity<FeedEntity> feeds = shareFeeds.transformBuildListEntity(feedEntities);
         for (FeedEntity feedEntity : feeds.getList()) {
             final ShareUserInfo info = userInfoService.selectByUid(feedEntity.getUserId());
             boolean liked = likeService.liked(userId, feedEntity.getId());
@@ -119,7 +125,7 @@ public class FeedServiceImpl implements FeedService {
         ShareFeed feed = feedMapper.selectByPrimaryKey(feedId);
         final ShareUserInfo info = userInfoService.selectByUid(feed.getUserId());
         boolean liked = likeService.liked(userId, feed.getId());
-        FeedEntity entity = FastjsonUtils.transformObject(feed, FeedEntity.class);
+        FeedEntity entity = feedEntityMapper.shareFeedToFeedEntity(feed);
         entity.setUserName(info.getNickname());
         entity.setUserAvatar(info.getAvatar());
         entity.setLiked(liked);

@@ -32,4 +32,13 @@ public class ListDataEntity<T> {
     public void setTotal(int total) {
         this.total = total;
     }
+
+
+    public <R> ListDataEntity<R> transformBuildListEntity(List<R> entity) {
+        ListDataEntity<R> transform = new ListDataEntity<>();
+        transform.setHasMore(this.isHasMore());
+        transform.setTotal(this.getTotal());
+        transform.setList(entity);
+        return transform;
+    }
 }

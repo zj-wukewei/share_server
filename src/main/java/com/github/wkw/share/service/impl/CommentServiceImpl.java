@@ -4,6 +4,7 @@ import com.github.wkw.share.dao.ShareCommentMapper;
 import com.github.wkw.share.domain.ShareComment;
 import com.github.wkw.share.domain.ShareCommentExample;
 import com.github.wkw.share.domain.ShareUserInfo;
+import com.github.wkw.share.mapper.CommentEntityMapper;
 import com.github.wkw.share.service.CommentService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.thirdparty.page.PageCallBackUtil;
@@ -32,6 +33,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     UserInfoService userService;
+
+    @Autowired
+    CommentEntityMapper commentEntityMapper;
 
     @Override
     public int insertComment(ShareComment shareComment) {
@@ -62,9 +66,7 @@ public class CommentServiceImpl implements CommentService {
                 .andFeedIdEqualTo(request.getFeedId())
                 .andTIdIsNull()
                 .example();
-        return PageCallBackUtil.selectRtnPage(request, () -> {
-            return shareCommentMapper.selectByExample(example);
-        });
+        return PageCallBackUtil.selectRtnPage(request, () -> shareCommentMapper.selectByExample(example));
     }
 
     @Override
@@ -76,7 +78,7 @@ public class CommentServiceImpl implements CommentService {
                 .example();
         return shareCommentMapper.selectByExample(example).stream()
                 .map((it) -> {
-                    CommentEntity entity = FastjsonUtils.transformObject(it, CommentEntity.class);
+                    CommentEntity entity = commentEntityMapper.shareCommentToCommentEntity(it);
                     entity.setTime(DateUtils.betweenTime(it.getAddTime()));
                     if (it.getFromUid() != null) {
                         ShareUserInfo fromUserInfo = userService.selectByUid(it.getFromUid());

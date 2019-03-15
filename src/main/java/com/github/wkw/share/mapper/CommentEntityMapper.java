@@ -23,6 +23,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * author wukewei on 2019/1/20.
@@ -42,4 +43,5 @@ public interface CommentEntityMapper {
     })
     ShareComment commentRequestToShareComment(CommentRequest request, Integer uId);
 
+    List<CommentEntity> transformShareCommentList(List<ShareComment> comments);
 }
