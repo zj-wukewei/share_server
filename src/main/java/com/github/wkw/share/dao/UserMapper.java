@@ -12,7 +12,7 @@ import org.apache.ibatis.annotations.Select;
  */
 @Mapper
 public interface UserMapper {
-    @Select("select u.id, u.phone,u.password, u.app_type as appType, r.role_name as roleName, u.app_model as appModel, u.token  from share_user u left join share_role r on u.role_id = r.id where u.phone =  #{mobile}")
+    @Select("select u.id, u.deleted, u.phone,u.password, u.app_type as appType, r.role_name as roleName, u.app_model as appModel, u.token  from share_user u left join share_role r on u.role_id = r.id where u.phone =  #{mobile}")
     ShareUserDetail loadUserByUsername(@Param("mobile") String mobile);
 
 
