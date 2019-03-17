@@ -3,9 +3,11 @@ package com.github.wkw.share.service.impl;
 import com.github.wkw.share.dao.ShareCommentMapper;
 import com.github.wkw.share.domain.ShareComment;
 import com.github.wkw.share.domain.ShareCommentExample;
+import com.github.wkw.share.domain.ShareFeed;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.mapper.CommentEntityMapper;
 import com.github.wkw.share.service.CommentService;
+import com.github.wkw.share.service.FeedService;
 import com.github.wkw.share.service.UserInfoService;
 import com.github.wkw.share.thirdparty.page.PageCallBackUtil;
 import com.github.wkw.share.utils.DateUtils;
@@ -16,8 +18,10 @@ import com.github.wkw.share.vo.ListDataEntity;
 import com.github.wkw.share.vo.request.CommentQryRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,8 +41,16 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentEntityMapper commentEntityMapper;
 
+    @Autowired
+    FeedService feedService;
+
+    @Transactional
     @Override
     public int insertComment(ShareComment shareComment) {
+        ShareFeed shareFeed = feedService.selectById(shareComment.getFeedId());
+        shareFeed.setUpdateTime(LocalDateTime.now());
+        shareFeed.setCommentCount(shareFeed.getCommentCount() + 1);
+        feedService.update(shareFeed);
         return shareCommentMapper.insertSelective(shareComment);
     }
 

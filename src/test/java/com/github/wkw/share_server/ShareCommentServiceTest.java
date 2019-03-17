@@ -30,7 +30,7 @@ public class ShareCommentServiceTest {
         comment.setFeedId(1);
         comment.setFromUid(2);
         comment.setToUid(1);
-        comment.setContent("aaaa你好啊11111");
+        comment.setContent("aaaa你好啊111112222");
         comment.settId(5);
         comment.setAddTime(LocalDateTime.now());
         comment.setUpdateTime(LocalDateTime.now());
