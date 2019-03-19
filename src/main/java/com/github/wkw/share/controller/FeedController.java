@@ -45,7 +45,7 @@ public class FeedController {
     }
 
     @RequestMapping(value = "/like/{feedId}", method = RequestMethod.GET)
-    public ShareResponse<LikeEntity> like(@LoginUserId Integer id, @PathVariable("feedId") Integer feedId) throws UserInfoUnFoundException {
+    public ShareResponse<LikeEntity> like(@LoginUserId Integer id, @PathVariable("feedId") Integer feedId) throws UserInfoUnFoundException, CommonException {
         return ShareResponse.ok(likeService.like(id, feedId));
     }
 }

@@ -53,4 +53,10 @@ public class ShareCommentServiceTest {
         ListDataEntity<CommentEntity> list = commentService.commentsList(request);
         System.out.print(list.getList().size());
     }
+
+    @Test
+    public void count() {
+        long count = commentService.commentFeedCount(1);
+        System.out.println("count" + count);
+    }
 }

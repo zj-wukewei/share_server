@@ -2,6 +2,7 @@ package com.github.wkw.share.controller;
 
 import com.github.wkw.share.annotion.LoginUserId;
 import com.github.wkw.share.domain.ShareComment;
+import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.mapper.CommentEntityMapper;
 import com.github.wkw.share.service.CommentService;
 import com.github.wkw.share.vo.CommentEntity;
@@ -32,7 +33,7 @@ public class CommentController {
     CommentEntityMapper commentEntityMapper;
 
     @RequestMapping(value = "/post", method = RequestMethod.POST)
-    public ShareResponse<Integer> comment(@RequestBody @Validated CommentRequest qry, @LoginUserId Integer id) {
+    public ShareResponse<Integer> comment(@RequestBody @Validated CommentRequest qry, @LoginUserId Integer id) throws CommonException {
         ShareComment comment = commentEntityMapper.commentRequestToShareComment(qry, id);
         return ShareResponse.ok(commentService.insertComment(comment));
     }

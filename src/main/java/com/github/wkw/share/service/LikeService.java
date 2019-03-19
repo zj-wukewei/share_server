@@ -1,5 +1,6 @@
 package com.github.wkw.share.service;
 
+import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.vo.LikeEntity;
 
@@ -9,7 +10,7 @@ import com.github.wkw.share.vo.LikeEntity;
  * GitHub https://github.com/zj-wukewei
  */
 public interface LikeService {
-    LikeEntity like(Integer id, Integer feedId) throws UserInfoUnFoundException;
+    LikeEntity like(Integer id, Integer feedId) throws UserInfoUnFoundException, CommonException;
 
     boolean liked(Integer id, Integer feedId);
 

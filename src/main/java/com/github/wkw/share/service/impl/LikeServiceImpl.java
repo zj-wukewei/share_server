@@ -4,6 +4,7 @@ import com.github.wkw.share.dao.ShareLikeMapper;
 import com.github.wkw.share.domain.ShareFeed;
 import com.github.wkw.share.domain.ShareLike;
 import com.github.wkw.share.domain.ShareLikeExample;
+import com.github.wkw.share.exception.CommonException;
 import com.github.wkw.share.exception.UserInfoUnFoundException;
 import com.github.wkw.share.service.FeedService;
 import com.github.wkw.share.service.LikeService;
@@ -34,7 +35,7 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     @Transactional
-    public LikeEntity like(Integer id, Integer feedId) throws UserInfoUnFoundException {
+    public LikeEntity like(Integer id, Integer feedId) throws UserInfoUnFoundException, CommonException {
         ShareLikeExample example = new ShareLikeExample()
                 .createCriteria()
                 .andUserIdEqualTo(id)
@@ -43,6 +44,9 @@ public class LikeServiceImpl implements LikeService {
         ShareLike like = shareLikeMapper.selectOneByExample(example);
         LikeEntity entity = new LikeEntity();
         ShareFeed feed = feedService.selectById(feedId);
+        if (feed == null) {
+            throw new CommonException("点赞feed不能为空");
+        }
         feed.setUpdateTime(LocalDateTime.now());
         if (like == null) {
             like = new ShareLike();
