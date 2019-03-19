@@ -12,4 +12,6 @@ public interface LikeService {
     LikeEntity like(Integer id, Integer feedId) throws UserInfoUnFoundException;
 
     boolean liked(Integer id, Integer feedId);
+
+    long feedLikeCount(int feedId);
 }

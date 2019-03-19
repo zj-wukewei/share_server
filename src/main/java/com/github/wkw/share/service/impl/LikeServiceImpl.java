@@ -77,4 +77,13 @@ public class LikeServiceImpl implements LikeService {
         ShareLike like = shareLikeMapper.selectOneByExample(example);
         return like != null;
     }
+
+    @Override
+    public long feedLikeCount(int feedId) {
+        ShareLikeExample example = new ShareLikeExample()
+                .createCriteria()
+                .andFeedIdEqualTo(feedId)
+                .example();
+        return shareLikeMapper.countByExample(example);
+    }
 }

@@ -20,4 +20,6 @@ public interface CommentService {
     ListDataEntity<ShareComment> list(CommentQryRequest request);
 
     List<CommentEntity> selectChildComments(Integer feedId, Integer commentId);
+
+    long commentFeedCount(Integer feedId);
 }

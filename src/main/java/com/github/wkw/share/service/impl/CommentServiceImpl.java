@@ -107,4 +107,13 @@ public class CommentServiceImpl implements CommentService {
                 })
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public long commentFeedCount(Integer feedId) {
+        ShareCommentExample example = new ShareCommentExample()
+                .createCriteria()
+                .andFeedIdEqualTo(feedId)
+                .example();
+        return shareCommentMapper.countByExample(example);
+    }
 }
