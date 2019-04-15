@@ -33,7 +33,7 @@ public class ShareUserInfoServiceTest {
 
     @Test
     public void insertUserInfo() throws Exception {
-        userInfoService.insertUserInfo(user);
+        userInfoService.selectByUid(1);
     }
 
 }

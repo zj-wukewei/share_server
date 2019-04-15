@@ -1,10 +1,10 @@
 package com.github.wkw.share.service.impl;
 
+import com.github.wkw.share.cache.ShareUserInfoCache;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.service.CacheService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by GoGo on  2018/9/5
@@ -13,27 +13,31 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 public class CacheServiceImpl implements CacheService {
-    private static final ConcurrentHashMap<Integer, ShareUserInfo> userInfoCache = new ConcurrentHashMap<>();
+
+    private static final int USER_INFO_TIMEUNIT = 60 * 24 * 3;
+
+    @Autowired
+    ShareUserInfoCache shareUserInfoCache;
 
     @Override
     public void insertUserInfo(ShareUserInfo userInfo) {
         if (userInfo != null) {
-            userInfoCache.put(userInfo.getUserId(), userInfo);
+            shareUserInfoCache.set(userInfo.getUserId().toString(), userInfo, USER_INFO_TIMEUNIT);
         }
     }
 
     @Override
     public void removeUserInfo(Integer userId) {
         if (userId != null) {
-            userInfoCache.remove(userId);
+            shareUserInfoCache.deleteKey(userId.toString());
         }
     }
 
     @Override
     public ShareUserInfo getUserInfoByUserId(Integer userId) {
-        if (userInfoCache.containsKey(userId)) {
-            return userInfoCache.get(userId);
+        if (userId == null) {
+            return null;
         }
-        return null;
+        return shareUserInfoCache.get(userId.toString());
     }
 }

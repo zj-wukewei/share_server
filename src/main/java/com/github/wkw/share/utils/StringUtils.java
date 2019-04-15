@@ -9,4 +9,8 @@ public class StringUtils {
     public static boolean equals(String a, String b) {
         return a == b || (a != null && b != null && a.length() == b.length() && a.equals(b));
     }
+
+    public static boolean isNotBlank(String str) {
+        return str != null && str.length() > 0 && str.trim().length() > 0;
+    }
 }
