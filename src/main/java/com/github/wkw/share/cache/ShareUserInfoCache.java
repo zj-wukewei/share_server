@@ -29,7 +29,7 @@ import org.springframework.stereotype.Component;
 public class ShareUserInfoCache extends BaseCache<ShareUserInfo> {
     @Override
     public String getPrefixKey() {
-        return "share-info";
+        return "share-info-";
     }
 
     @Override

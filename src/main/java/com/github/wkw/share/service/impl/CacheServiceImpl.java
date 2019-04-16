@@ -22,7 +22,7 @@ public class CacheServiceImpl implements CacheService {
     @Override
     public void insertUserInfo(ShareUserInfo userInfo) {
         if (userInfo != null) {
-            shareUserInfoCache.set(userInfo.getUserId().toString(), userInfo, USER_INFO_TIMEUNIT);
+            shareUserInfoCache.setById(userInfo.getUserId().toString(), userInfo, USER_INFO_TIMEUNIT);
         }
     }
 
@@ -38,6 +38,6 @@ public class CacheServiceImpl implements CacheService {
         if (userId == null) {
             return null;
         }
-        return shareUserInfoCache.get(userId.toString());
+        return shareUserInfoCache.getById(userId.toString());
     }
 }
