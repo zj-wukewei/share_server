@@ -22,7 +22,7 @@ import java.io.IOException;
 public class UserInfoFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(UserInfoFilter.class);
 
-    // TODO: 2019/3/19 到时候引入缓存 
+    // TODO: 2019/3/19 到时候引入缓存
     @Resource
     UserMapper userMapper;
 
