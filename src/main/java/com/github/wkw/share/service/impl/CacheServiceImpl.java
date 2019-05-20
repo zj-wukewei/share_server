@@ -4,7 +4,11 @@ import com.github.wkw.share.cache.ShareUserInfoCache;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.service.CacheService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by GoGo on  2018/9/5
@@ -14,10 +18,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class CacheServiceImpl implements CacheService {
 
-    private static final int USER_INFO_TIMEUNIT = 60 * 24 * 3;
+    public static final int USER_INFO_TIMEUNIT = 60 * 24 * 3;
 
     @Autowired
     ShareUserInfoCache shareUserInfoCache;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Override
+    public void setStringKey(String key, String value) {
+        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
+        ops.set(key, value);
+    }
+
+    @Override
+    public void setStringKey(String key, String value, int minute) {
+        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
+        ops.set(key, value, minute, TimeUnit.MINUTES);
+    }
+
+    @Override
+    public String getStringKey(String key) {
+        ValueOperations<String, String> ops = this.stringRedisTemplate.opsForValue();
+        return ops.get(key);
+    }
+
+    @Override
+    public void removeString(String key) {
+        stringRedisTemplate.delete(key);
+    }
 
     @Override
     public void insertUserInfo(ShareUserInfo userInfo) {

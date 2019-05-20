@@ -8,6 +8,15 @@ import com.github.wkw.share.domain.ShareUserInfo;
  * GitHub https://github.com/zj-wukewei
  */
 public interface CacheService {
+
+    void setStringKey(String key, String value);
+
+    void setStringKey(String key, String value, int minute);
+
+    String getStringKey(String key);
+
+    void removeString(String key);
+
     void insertUserInfo(ShareUserInfo userInfo);
 
     void removeUserInfo(Integer userId);

@@ -2,8 +2,10 @@ package com.github.wkw.share.thirdparty.security;
 
 import com.github.wkw.share.Constants;
 import com.github.wkw.share.dao.UserMapper;
+import com.github.wkw.share.service.impl.CacheServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
@@ -22,9 +24,11 @@ import java.io.IOException;
 public class UserInfoFilter extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(UserInfoFilter.class);
 
-    // TODO: 2019/3/19 到时候引入缓存
     @Resource
     UserMapper userMapper;
+
+    @Autowired
+    CacheServiceImpl mCacheServiceImpl;
 
 
     @Override
@@ -38,13 +42,18 @@ public class UserInfoFilter extends OncePerRequestFilter {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } else {
             final String phone = TokenService.decodeToken(token)[0];
-            final int userInfo = userMapper.findUserInfo(phone);
-            if (userInfo == 0) {
-                logger.info("Not found this UserInfo phone:" + phone);
-                httpServletResponse.setStatus(HttpServletResponse.SC_ACCEPTED);
-                RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/error/1010");
-                dispatcher.forward(httpServletRequest, httpServletResponse);
-                return;
+            final String count = mCacheServiceImpl.getStringKey(phone);
+            if (count == null) {
+                final int userInfo = userMapper.findUserInfo(phone);
+                if (userInfo == 0) {
+                    logger.info("Not found this UserInfo phone:" + phone);
+                    httpServletResponse.setStatus(HttpServletResponse.SC_ACCEPTED);
+                    RequestDispatcher dispatcher = httpServletRequest.getRequestDispatcher("/error/1010");
+                    dispatcher.forward(httpServletRequest, httpServletResponse);
+                    return;
+                } else {
+                    mCacheServiceImpl.setStringKey(phone, String.valueOf(userInfo), CacheServiceImpl.USER_INFO_TIMEUNIT);
+                }
             }
             filterChain.doFilter(httpServletRequest, httpServletResponse);
 
