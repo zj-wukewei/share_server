@@ -1,6 +1,7 @@
 package com.github.wkw.share.vo.request;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * Created by GoGo on  2018/9/10
@@ -12,7 +13,7 @@ public class UserInfoRequest {
     @NotBlank(message = "nickname 不能为空")
     private String nickname;
 
-    @NotBlank(message = "categoryId 不能为空")
+    @NotNull(message = "categoryId 不能为空")
     private Integer categoryId;
 
     private String avatar;
@@ -21,7 +22,7 @@ public class UserInfoRequest {
     private String bio;
 
 
-    @NotBlank(message = "gender 不能为空")
+    @NotNull(message = "gender 不能为空")
     private Integer gender;
 
     public String getNickname() {
