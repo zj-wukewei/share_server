@@ -27,10 +27,10 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://127.0.0.1:10086")
-                .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS")
-                .allowCredentials(false)
-                .maxAge(3600);
+//        registry.addMapping("/**")
+//                .allowedOrigins("http://127.0.0.1:10086")
+//                .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS")
+//                .allowCredentials(false)
+//                .maxAge(3600);
     }
 }

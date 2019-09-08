@@ -1,5 +1,6 @@
 package com.github.wkw.share.service.impl;
 
+import com.github.wkw.share.Constants;
 import com.github.wkw.share.dao.ShareFeedMapper;
 import com.github.wkw.share.domain.ShareFeed;
 import com.github.wkw.share.domain.ShareFeedExample;
@@ -32,11 +33,7 @@ import java.util.List;
 @Service
 public class FeedServiceImpl implements FeedService {
 
-    private static final int HOT_LIKE_COUNT = 100;
-    //社区
-    private static final int TAG_COMMUNITY = 1;
-    //内容
-    private static final int TAG_CONTENT = 2;
+
     @Resource
     ShareFeedMapper feedMapper;
 
@@ -56,6 +53,7 @@ public class FeedServiceImpl implements FeedService {
             example.setOrderByClause("add_time desc");
             if (ObjectUtils.isNotNull(qry.isDeleted())) {
                 example.createCriteria()
+                        .andTagIdEqualTo(Constants.FeedConstans.TAG_CONTENT)
                         .andDeletedEqualTo(qry.isDeleted());
             }
 
@@ -70,7 +68,8 @@ public class FeedServiceImpl implements FeedService {
             ShareFeedExample example = new ShareFeedExample();
             example.createCriteria()
                     .andDeletedEqualTo(false)
-                    .andLikeCountGreaterThanOrEqualTo(HOT_LIKE_COUNT);
+                    .andTagIdEqualTo(Constants.FeedConstans.TAG_CONTENT)
+                    .andLikeCountGreaterThanOrEqualTo(Constants.FeedConstans.HOT_LIKE_COUNT);
             example.setOrderByClause("add_time desc");
             return feedMapper.selectByExample(example);
         });
@@ -82,7 +81,7 @@ public class FeedServiceImpl implements FeedService {
             ShareFeedExample example = new ShareFeedExample();
             example.createCriteria()
                     .andDeletedEqualTo(false)
-                    .andTagIdEqualTo(TAG_COMMUNITY);
+                    .andTagIdEqualTo(Constants.FeedConstans.TAG_COMMUNITY);
             example.setOrderByClause("add_time desc");
             return feedMapper.selectByExample(example);
         });
@@ -90,6 +89,8 @@ public class FeedServiceImpl implements FeedService {
 
     @Override
     public ListDataEntity<FeedEntity> feedEntityList(FeedRequest qry, Integer userId) throws CommonException, UserInfoUnFoundException {
+        //首页和热门针对的是内容的
+        //内容和社区的区别暂定，内容只有一级评论，社区有二级评论
         ListDataEntity<ShareFeed> shareFeeds = null;
         if (FeedRequest.COMMUNITY.equals(qry.getType())) {
             shareFeeds = selectCommunity(qry);

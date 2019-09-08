@@ -50,4 +50,15 @@ public class Constants {
         public static final Integer PAGE_SIZE = 20;
     }
 
+
+    public static class FeedConstans {
+        //社区
+        public static final int TAG_COMMUNITY = 1;
+        //内容
+        public static final int TAG_CONTENT = 2;
+
+        public static final int HOT_LIKE_COUNT = 100;
+
+    }
+
 }

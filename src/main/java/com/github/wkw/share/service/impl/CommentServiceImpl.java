@@ -1,5 +1,6 @@
 package com.github.wkw.share.service.impl;
 
+import com.github.wkw.share.Constants;
 import com.github.wkw.share.dao.ShareCommentMapper;
 import com.github.wkw.share.domain.ShareComment;
 import com.github.wkw.share.domain.ShareCommentExample;
@@ -50,7 +51,10 @@ public class CommentServiceImpl implements CommentService {
     public int insertComment(ShareComment shareComment) throws CommonException {
         ShareFeed shareFeed = feedService.selectById(shareComment.getFeedId());
         if (shareFeed == null) {
-            throw new CommonException("点赞feed不能为空");
+            throw new CommonException("评论feed不能为空");
+        }
+        if (shareFeed.getTagId() == Constants.FeedConstans.TAG_CONTENT && shareComment.gettId() != null) {
+            throw new CommonException("目前暂不提供对非社区提供二级评论");
         }
         shareFeed.setUpdateTime(LocalDateTime.now());
         shareFeed.setCommentCount(shareFeed.getCommentCount() + 1);
@@ -69,7 +73,7 @@ public class CommentServiceImpl implements CommentService {
             if (shareComment.getId() != null) {
                 ShareUserInfo toUserInfo = userService.selectByUid(shareComment.getToUid());
                 commentEntity.setToNickName(toUserInfo.getNickname());
-                commentEntity.setChildComments(selectChildComments(request.getFeedId(), shareComment.getId()));
+                commentEntity.setChildComments(selectChildComments(request.getFeedId(), shareComment.getId(), false));
             }
             return commentEntity;
         });
@@ -86,12 +90,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentEntity> selectChildComments(Integer feedId, Integer commentId) {
+    public List<CommentEntity> selectChildComments(Integer feedId, Integer commentId, boolean isAll) {
         ShareCommentExample example = new ShareCommentExample()
                 .createCriteria()
                 .andFeedIdEqualTo(feedId)
                 .andTIdEqualTo(commentId)
                 .example();
+        example.setOrderByClause("add_time desc");
         return shareCommentMapper.selectByExample(example).stream()
                 .map((it) -> {
                     CommentEntity entity = commentEntityMapper.shareCommentToCommentEntity(it);
