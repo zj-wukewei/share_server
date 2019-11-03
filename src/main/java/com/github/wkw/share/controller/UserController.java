@@ -1,5 +1,6 @@
 package com.github.wkw.share.controller;
 
+import com.github.wkw.share.annotion.AnonymousAccess;
 import com.github.wkw.share.annotion.LoginUserId;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.CommonException;
@@ -41,6 +42,7 @@ public class UserController {
     @Autowired
     UserInfoEntityMapper userInfoEntityMapper;
 
+    @AnonymousAccess
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ShareResponse<UserEntity> login(@RequestBody @Validated LoginRequest loginRequest, @RequestHeader("APP-ID") Integer appId,
                                            @RequestHeader("APP-VERSION") String appVersion,
