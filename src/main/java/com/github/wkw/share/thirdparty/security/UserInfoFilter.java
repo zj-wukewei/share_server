@@ -3,9 +3,11 @@ package com.github.wkw.share.thirdparty.security;
 import com.github.wkw.share.Constants;
 import com.github.wkw.share.dao.UserMapper;
 import com.github.wkw.share.service.impl.CacheServiceImpl;
+import com.github.wkw.share.utils.ShareServerUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.annotation.Resource;
@@ -15,6 +17,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Set;
 
 /**
  * Created by GoGo on  2018/9/4
@@ -31,14 +34,25 @@ public class UserInfoFilter extends OncePerRequestFilter {
     CacheServiceImpl mCacheServiceImpl;
 
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    private Set<String> anonymousInfoUrls;
+
+    public UserInfoFilter() {
+    }
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String token = httpServletRequest.getHeader(Constants.HTTP_HEADER.TOKEN);
         logger.info("UserInfoFilter" + token);
         logger.info("UserInfoFilter" + httpServletRequest.getRequestURI());
+        if (anonymousInfoUrls == null) {
+            //这些接口不需要完善基本信息
+            anonymousInfoUrls = ShareServerUtils.getAnonymousInfoUrls(applicationContext);
+        }
         final String url = httpServletRequest.getRequestURI();
-
-        if (url.startsWith("/user/login") || url.startsWith("/user/login/register")) {
+        if (anonymousInfoUrls.contains(url)) {
             filterChain.doFilter(httpServletRequest, httpServletResponse);
         } else {
             final String phone = TokenService.decodeToken(token)[0];

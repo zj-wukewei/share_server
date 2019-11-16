@@ -1,14 +1,13 @@
 package com.github.wkw.share.thirdparty.security;
 
 import com.github.wkw.share.Constants;
-import com.github.wkw.share.annotion.AnonymousAccess;
 import com.github.wkw.share.dao.UserMapper;
+import com.github.wkw.share.utils.ShareServerUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.RememberMeAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,13 +17,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
-import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
 import javax.annotation.Resource;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -44,18 +38,7 @@ public class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        Map<RequestMappingInfo, HandlerMethod> handlerMethodMap = applicationContext.getBean(RequestMappingHandlerMapping.class).getHandlerMethods();
-        Set<String> anonymousUrls = new HashSet<>();
-        for (Map.Entry<RequestMappingInfo, HandlerMethod> infoEntry : handlerMethodMap.entrySet()) {
-            HandlerMethod handlerMethod = infoEntry.getValue();
-            AnonymousAccess anonymousAccess = handlerMethod.getMethodAnnotation(AnonymousAccess.class);
-            PreAuthorize preAuthorize = handlerMethod.getMethodAnnotation(PreAuthorize.class);
-            if (null != preAuthorize && preAuthorize.value().contains("anonymous")) {
-                anonymousUrls.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
-            } else if (null != anonymousAccess && null == preAuthorize) {
-                anonymousUrls.addAll(infoEntry.getKey().getPatternsCondition().getPatterns());
-            }
-        }
+        Set<String> anonymousUrls = ShareServerUtils.getAnonymousLoginUrls(applicationContext);
         http.csrf().disable()
                 .authorizeRequests()
                 // 自定义匿名访问所有url放行 ： 允许 匿名和带权限以及登录用户访问

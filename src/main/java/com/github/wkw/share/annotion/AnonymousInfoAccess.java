@@ -7,12 +7,12 @@ import java.lang.annotation.Target;
 
 /**
  * Created by GoGo on  2018/8/6
- * 接口如需登录
+ * 接口不需要基本信息完善
  * Email zjwkw1992@163.com
  * GitHub https://github.com/zj-wukewei
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AnonymousAccess {
+public @interface AnonymousInfoAccess {
 
 }

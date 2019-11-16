@@ -1,6 +1,7 @@
 package com.github.wkw.share.controller;
 
 import com.github.wkw.share.annotion.AnonymousAccess;
+import com.github.wkw.share.annotion.AnonymousInfoAccess;
 import com.github.wkw.share.annotion.LoginUserId;
 import com.github.wkw.share.domain.ShareUserInfo;
 import com.github.wkw.share.exception.CommonException;
@@ -43,6 +44,7 @@ public class UserController {
     UserInfoEntityMapper userInfoEntityMapper;
 
     @AnonymousAccess
+    @AnonymousInfoAccess
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ShareResponse<UserEntity> login(@RequestBody @Validated LoginRequest loginRequest, @RequestHeader("APP-ID") Integer appId,
                                            @RequestHeader("APP-VERSION") String appVersion,
@@ -51,6 +53,7 @@ public class UserController {
         return ShareResponse.ok(entity);
     }
 
+    @AnonymousInfoAccess
     @RequestMapping(value = "/info", method = RequestMethod.GET)
     public ShareResponse<UserInfoEntity> information(@LoginUserId Integer id) throws UserInfoUnFoundException {
         ShareUserInfo userInfo = userInfoService.selectByUid(id);
